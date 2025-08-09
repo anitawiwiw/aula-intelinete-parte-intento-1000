@@ -52,12 +52,12 @@ class AuthController extends Controller
         'email' => 'Usuario o contraseña incorrectos.',
     ]);
 }
+public function logout(Request $request)
+{
+    Auth::logout();
+    $request->session()->invalidate();
+    $request->session()->regenerateToken();
+    return redirect()->route('home');
+}
 
-
-    public function logout(Request $request) {
-        Auth::logout();
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-       return redirect()->route('home');
-    }
 }
