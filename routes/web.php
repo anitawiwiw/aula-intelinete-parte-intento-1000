@@ -2,7 +2,11 @@
 
 // routes/web.php
 use App\Http\Controllers\AuthController;
-// routes/web.php
+use App\Http\Controllers\ReservaController;
+use Illuminate\Support\Facades\Route;
+
+Route::get('/reservas/crear', [ReservaController::class, 'create'])->name('reservas.create');
+Route::post('/reservas', [ReservaController::class, 'store'])->name('reservas.store');
 Route::get('/', function () {
     return view('welcome');  // Página con botones de Login y Registro
 })->name('home');
