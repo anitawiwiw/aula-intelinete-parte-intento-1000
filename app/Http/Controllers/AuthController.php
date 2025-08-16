@@ -19,6 +19,7 @@ class AuthController extends Controller
         'email' => 'required|email|max:255|unique:users',
         'password' => 'required|string|min:8|confirmed',
         'role' => 'required|in:profesor,administrador',
+        
     ]);
 
     User::create([
@@ -28,11 +29,17 @@ class AuthController extends Controller
         'password' => Hash::make($request->password),
         'role' => $request->role,
     ]);
-
-    return redirect()->route('home')->with('success', 'Registro exitoso. Ahora inicia sesión.');
+if ($request->role === 'profesor') {
+    Auth::attempt($request->only('email', 'password'));
+    return redirect()->route('docentes.create');
 }
 
+return redirect()->route('home')->with('success', 'Registro exitoso. Ahora inicia sesión.');
 
+    
+}
+
+  
     public function showLoginForm() {
         return view('auth.login');
     }

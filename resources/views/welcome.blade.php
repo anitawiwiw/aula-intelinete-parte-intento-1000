@@ -126,5 +126,4 @@
   <p>Gestiona horarios, reservas y recursos con la máxima eficiencia. Simplifica tu día a día con tecnología pensada para vos.</p>
 </main>
 
-</body>
-</html>
+</body></html>

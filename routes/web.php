@@ -4,6 +4,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ReservaController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\RegistroDocenteController;
 
 Route::get('/reservas/crear', [ReservaController::class, 'create'])->name('reservas.create');
 Route::post('/reservas', [ReservaController::class, 'store'])->name('reservas.store');
@@ -13,6 +14,8 @@ Route::get('/', function () {
 
 Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register.form');
 Route::post('/register', [AuthController::class, 'register'])->name('register');
+Route::get('/docentes/create', [RegistroDocenteController::class, 'create'])->name('docentes.create');
+Route::post('/docentes', [RegistroDocenteController::class, 'store'])->name('docentes.store');
 
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login.form');
 Route::post('/login', [AuthController::class, 'login'])->name('login');
