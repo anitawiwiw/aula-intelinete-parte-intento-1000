@@ -162,7 +162,7 @@
                     <input type="text" id="dni" name="dni" required 
                            placeholder="Ingrese su número de documento">
                 </div>
-
+               
                 <div class="form-group">
                     <label for="especialidad">ESPECIALIDAD</label>
                     <select id="especialidad" name="especialidad" required>

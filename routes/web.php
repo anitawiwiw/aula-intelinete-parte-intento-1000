@@ -10,7 +10,7 @@ Route::get('/reservas/crear', [ReservaController::class, 'create'])->name('reser
 Route::post('/reservas', [ReservaController::class, 'store'])->name('reservas.store');
 Route::get('/', function () {
     return view('welcome');  // Página con botones de Login y Registro
-})->name('home');
+})->name('welcome');
 
 Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register.form');
 Route::post('/register', [AuthController::class, 'register'])->name('register');

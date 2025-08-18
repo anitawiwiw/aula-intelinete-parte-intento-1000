@@ -13,17 +13,20 @@ class RegistroDocenteController extends Controller
     }
 
     public function store(Request $request) {
-        $request->validate([
-            'dni' => 'required|string|max:20',
-            'especialidad' => 'required|string'
-        ]);
+           $validated = $request->validate([
+        'dni' => 'required|numeric',
+        'especialidad' => 'required|string',
+        // ... otros campos (excepto 'nombre_completo')
+    ]);
 
-        Docente::create([
-            'user_id' => Auth::id(),
-            'dni' => $request->dni,
-            'especialidad' => $request->especialidad
-        ]);
+    Docente::create([
+        'user_id' => Auth::id(), // ID del usuario autenticado
+        'nombre_completo' => Auth::user()->name, // Nombre del usuario
+        'dni' => $validated['dni'],
+        'especialidad' => $validated['especialidad'],
+        // ... otros campos
+    ]);
 
-        return redirect()->route('home')->with('success', 'Datos de docente guardados. Ahora puedes iniciar sesión.');
-    }
+    return redirect()->route('welcome')->with('success', 'Docente creado.');
+}
 }

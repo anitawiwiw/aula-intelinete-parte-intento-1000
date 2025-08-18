@@ -10,6 +10,7 @@ return new class extends Migration {
         Schema::create('docentes', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id')->unique();
+            $table->string('nombre_completo')->nullable(); // Opción 1: Permite NULL
             $table->string('dni', 20);
             $table->string('especialidad');
             $table->timestamps();
