@@ -34,7 +34,7 @@ if ($request->role === 'profesor') {
     return redirect()->route('docentes.create');
 }
 
-return redirect()->route('home')->with('success', 'Registro exitoso. Ahora inicia sesión.');
+return redirect()->route('welcome')->with('success', 'Registro exitoso. Ahora inicia sesión.');
 
     
 }
@@ -50,11 +50,20 @@ return redirect()->route('home')->with('success', 'Registro exitoso. Ahora inici
         'password' => 'required|string',
     ]);
 
-    if (Auth::attempt($credentials)) {
-        $request->session()->regenerate();
-        return redirect()->route('dashboard');
+     if (Auth::attempt($credentials)) {
+        // Autenticación exitosa
+        $user = Auth::user();
+
+        if ($user->role === 'administrador') {
+    return redirect()->route('home_de_admins');
+} else {
+    return redirect()->route('home_de_docentes');
+}
+
+
     }
 
+    
     return back()->withErrors([
         'email' => 'Usuario o contraseña incorrectos.',
     ]);
@@ -64,7 +73,7 @@ public function logout(Request $request)
     Auth::logout();
     $request->session()->invalidate();
     $request->session()->regenerateToken();
-    return redirect()->route('home');
+    return redirect()->route('welcome');
 }
 
 }

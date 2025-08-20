@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Aula;
-use App\Models\Materia;
+use Illuminate\Http\Request;
 
 class AulaController extends Controller
 {
@@ -13,47 +12,44 @@ class AulaController extends Controller
         $aulas = Aula::all();
         return view('aulas.index', compact('aulas'));
     }
-    
+
     public function create()
     {
         return view('aulas.create');
     }
-    
+
     public function store(Request $request)
     {
-        $validated = $request->validate([
+        $request->validate([
             'nombre' => 'required|string|max:255',
-            'ubicacion' => 'required|integer|between:1,7',
-            'capacidad' => 'required|integer|min:1'
+            'ubicacion' => 'required|integer|min:1|max:10',
+            'capacidad' => 'required|integer|max:35',
         ]);
-        
-        Aula::create($validated);
-        
-         return redirect()->route('dashboard')->with('success', 'Aula creada exitosamente');
+
+        Aula::create($request->all());
+        return redirect()->route('aulas.index')->with('success', 'Aula creada correctamente');
     }
-    private function recomendarAulas($materia_ids)
-{
-    $materias = Materia::with('docentes')->find($materia_ids);
-    
-    $tiposAula = collect();
-    
-    foreach ($materias as $materia) {
-        if (str_contains($materia->nombre, 'Robótica') || str_contains($materia->nombre, 'Tecnología')) {
-            $tiposAula->push('Maker');
-            $tiposAula->push('Maker Lab');
-        } elseif (str_contains($materia->nombre, 'Ciencias') || str_contains($materia->nombre, 'Laboratorio')) {
-            $tiposAula->push('Laboratorio');
-        } elseif (str_contains($materia->nombre, 'Letras') || str_contains($materia->nombre, 'Humanidades')) {
-            $tiposAula->push('Letras');
-        } elseif (str_contains($materia->nombre, 'Matemática') || str_contains($materia->nombre, 'Exactas')) {
-            $tiposAula->push('Exactas');
-        } else {
-            $tiposAula->push('Sociales');
-        }
+
+    public function edit(Aula $aula)
+    {
+        return view('aulas.edit', compact('aula'));
     }
-    
-    $tiposUnicos = $tiposAula->unique();
-    
-    return Aula::whereIn('nombre', $tiposUnicos)->get();
-}
+
+    public function update(Request $request, Aula $aula)
+    {
+        $request->validate([
+            'nombre' => 'required|string|max:255',
+            'ubicacion' => 'required|integer|min:1|max:10',
+            'capacidad' => 'required|integer|max:35',
+        ]);
+
+        $aula->update($request->all());
+        return redirect()->route('aulas.index')->with('success', 'Aula actualizada correctamente');
+    }
+
+    public function destroy(Aula $aula)
+    {
+        $aula->delete();
+        return redirect()->route('aulas.index')->with('success', 'Aula eliminada correctamente');
+    }
 }

@@ -9,6 +9,15 @@ use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable {
     use  Notifiable;
+    public function esAdministrador()
+    {
+        return $this->role === 'administrador';
+    }
+
+    public function esDocente()
+    {
+        return $this->role === 'docente';
+    }
 
     protected $fillable = [
         'name',
