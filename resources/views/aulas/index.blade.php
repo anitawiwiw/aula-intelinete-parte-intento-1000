@@ -3,18 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Aulas - Panel de Administración</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&display=swap" rel="stylesheet">
+  <title>Aulas - Panel</title>
   <style>
     :root {
-      --color-primary: #6E3B7D;
-      --color-secondary: #A97CB0;
-      --color-background-main: #FDF9F2;
-      --color-background-sidebar: #D8BCE5;
-      --color-text-dark: #333;
-      --color-text-light: #fff;
+      --color-primary: #6d3a7c;
+      --color-secondary: #a87cb0;
+      --color-background-main: #FDF9F5;
+      --color-background-sidebar: #d8d3dd;
+      --color-text-dark: #491c57;
+      --color-text-light: #FDF9F5;
     }
     body {
       font-family: Arial, sans-serif;
@@ -30,12 +27,12 @@
       padding: 0 20px;
     }
     .top-bar a {
-      color: var(--color-text-dark);
+      color: var(--color-text-light);
       text-decoration: none;
       font-weight: bold; margin-left: 15px;
     }
-    .top-bar a:hover { text-decoration: underline; }
-    .main-container { display: flex; flex-grow: 1; }
+    .main-container { 
+      display: flex; flex-grow: 1; }
     .sidebar {
       background-color: var(--color-background-sidebar);
       width: 200px; padding: 40px 20px;
@@ -51,41 +48,52 @@
     .content-area { flex-grow: 1; padding: 40px; }
     .header-section {
       display: flex; justify-content: space-between;
-      align-items: center; margin-bottom: 20px;
+      align-items: flex-start; margin-bottom: 30px;
+    }
+    .header-left {
+      display: flex; flex-direction: column; gap: 15px;
     }
     .header-title {
       font-family: 'Cinzel', serif;
-      font-size: 50px; color: var(--color-primary);
+      font-size: 80px; color: var(--color-primary);
+      margin: 0;
     }
     .create-button {
       background-color: var(--color-background-sidebar);
-      color: var(--color-text-dark);
-      border: none; padding: 10px 20px;
-      border-radius: 20px; font-weight: bold;
-      cursor: pointer;
+      color: var(--color-primary);
+      border: none; padding: 12px 25px;
+      border-radius: 25px; font-weight: bold;
+      cursor: pointer; font-size: 16px;
+    }
+    .create-button:hover {
+      background-color: var(--color-secondary);
     }
     .map-box {
       border: 2px solid var(--color-text-dark);
-      border-radius: 20px; width: 300px; height: 200px;
-      overflow: hidden; margin-left: 20px;
+      border-radius: 20px; width: 500px; height: 350px;
+      overflow: hidden;
       display: flex; justify-content: center; align-items: center;
     }
     .map-box img { width: 100%; height: 100%; object-fit: contain; }
-    .table-section { margin-top: 40px; width: 100%; }
-    table { width: 100%; border-collapse: collapse; }
-    th, td { padding: 10px; text-align: left; }
-    th { background-color: var(--color-background-sidebar); }
+    .table-section { margin-top: 20px; width: 100%; }
+    table { width: 100%; border-collapse: collapse; font-size: 15px; }
+    th, td { padding: 12px; text-align: center; }
+    th {
+      background-color: var(--color-background-sidebar);
+      color: var(--color-text-dark);
+    }
     tr:nth-child(even) { background-color: #f9f9f9; }
     .edit-button {
       background-color: #3490dc; color: white;
-      padding: 5px 10px; border-radius: 5px;
+      padding: 6px 12px; border-radius: 5px;
       text-decoration: none;
     }
     .edit-button:hover { background-color: #2779bd; }
     .delete-button {
       background-color: #e3342f; color: white;
-      padding: 5px 10px; border: none;
+      padding: 6px 12px; border: none;
       border-radius: 5px; cursor: pointer;
+      margin-left: 8px;
     }
     .delete-button:hover { background-color: #cc1f1a; }
   </style>
@@ -93,7 +101,7 @@
 <body>
   <!-- Top bar -->
   <div class="top-bar">
-
+    <a href="{{ route('home_de_admins') }}">home</a> |
     <a href="{{ route('logout') }}">logout</a>
   </div>
 
@@ -110,14 +118,14 @@
     <!-- Main content -->
     <div class="content-area">
       <div class="header-section">
-        <h1 class="header-title">aulas</h1>
-        <div class="flex items-center">
+        <div class="header-left">
+          <h1 class="header-title">aulas</h1>
           <a href="{{ route('aulas.create') }}">
             <button class="create-button">crear aula</button>
           </a>
-          <div class="map-box">
-            <img src="{{ asset('images/aulas.jpeg') }}" alt="Mapa de Aulas">
-          </div>
+        </div>
+        <div class="map-box">
+          <img src="{{ asset('images/aulas.jpeg') }}" alt="Mapa de Aulas">
         </div>
       </div>
 
