@@ -25,8 +25,8 @@
         <label for="ubicacion">Ubicación</label>
         <select id="ubicacion" name="ubicacion" required>
           <option value="">Seleccione una ubicación</option>
-          @for($i = 1; $i <= 7; $i++)
-            <option value="{{ $i }}" {{ old('ubicacion') == $i ? 'selected' : '' }}>Edificio {{ $i }}</option>
+          @for($i = 1; $i <= 9; $i++)
+            <option value="{{ $i }}" {{ old('ubicacion') == $i ? 'selected' : '' }}>Aula {{ $i }}</option>
           @endfor
         </select>
       </div>

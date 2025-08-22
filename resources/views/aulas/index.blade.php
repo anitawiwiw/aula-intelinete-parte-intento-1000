@@ -21,35 +21,56 @@
       height: 100vh;
     }
     .top-bar {
-      background-color: var(--color-secondary);
-      height: 50px; display: flex;
-      justify-content: flex-end; align-items: center;
-      padding: 0 20px;
-    }
-    .top-bar a {
-      color: var(--color-text-light);
-      text-decoration: none;
-      font-weight: bold; margin-left: 15px;
-    }
-    .main-container { 
-      display: flex; flex-grow: 1; }
-    .sidebar {
-      background-color: var(--color-background-sidebar);
-      width: 200px; padding: 40px 20px;
-      display: flex; flex-direction: column; gap: 20px;
-      align-items: center;
-    }
-    .sidebar-button {
-      background-color: var(--color-primary);
-      width: 100%; height: 40px;
-      border: none; border-radius: 20px;
-      cursor: pointer;
-    }
-    .content-area { flex-grow: 1; padding: 40px; }
-    .header-section {
-      display: flex; justify-content: space-between;
-      align-items: flex-start; margin-bottom: 30px;
-    }
+   position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 50px;
+  background-color: var(--color-secondary);
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 0 20px;
+  z-index: 1000;
+}
+.top-bar a {
+  color: var(--color-text-light);
+  text-decoration: none;
+  font-weight: bold; margin-left: 15px;
+}
+.top-bar .logo {
+  position: absolute;
+  left: 55px;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 250%; /* ajusta según tu preferencia */
+}
+.main-container { display: flex; }
+.sidebar {
+  position: fixed;
+  top: 50px; /* empieza debajo del top-bar */
+  left: 0;
+  width: 200px;
+  height: calc(100vh - 50px); /* altura restante de la ventana */
+  background-color: var(--color-background-sidebar);
+  padding: 40px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+
+}
+.sidebar-button {
+  background-color: var(--color-primary);
+  width: 100%; height: 40px;
+  border: none; border-radius: 20px;
+  cursor: pointer;
+}
+.content-area {
+  margin-left: 200px; /* mismo ancho de la sidebar */
+  padding: 70px; /* padding-top suficiente para no tapar top-bar */
+  flex-grow: 1; }
+    
     .header-left {
       display: flex; flex-direction: column; gap: 15px;
     }
@@ -101,6 +122,7 @@
 <body>
   <!-- Top bar -->
   <div class="top-bar">
+      <img src="{{ asset('images/logo.png') }}" alt="Logo" class="logo">
     <a href="{{ route('home_de_admins') }}">home</a> |
     <a href="{{ route('logout') }}">logout</a>
   </div>

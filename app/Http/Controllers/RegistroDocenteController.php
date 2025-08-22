@@ -33,7 +33,7 @@ public function index()
             'nombre_completo' => $request->nombre_completo,
             'dni' => $request->dni,
             'especialidad' => $request->especialidad,
-            'user_id' => $request->user_id ?? 0,
+            'user_id' => $request->user_id ?: null, // <-- usar null en vez de 0
         ]);
 
         return redirect()->route('docentes.index')->with('success', 'Docente actualizado correctamente.');
@@ -60,7 +60,11 @@ public function create2()
 {
     return view('docentes.create2'); // vista del admin
 }
-
+public function destroy(Docente $docente)
+{
+    $docente->delete(); // elimina el docente
+    return redirect()->route('docentes.index')->with('success', 'Docente eliminado correctamente.');
+}
 public function store2(Request $request)
 {
     $request->validate([
@@ -69,12 +73,12 @@ public function store2(Request $request)
         'especialidad' => 'required|string',
     ]);
 
-    Docente::create([
-        'nombre_completo' => $request->nombre_completo,
-        'dni' => $request->dni,
-        'especialidad' => $request->especialidad,
-        'user_id' => $request->user_id ?? null,
-    ]);
+    $docente = new Docente();
+    $docente->nombre_completo = $request->nombre_completo;
+    $docente->dni = $request->dni;
+    $docente->especialidad = $request->especialidad;
+    $docente->user_id = null; // <-- clave para evitar error
+    $docente->save();
     return redirect()->route('docentes.index')->with('success', 'Docente creado por admin');
 
 }
