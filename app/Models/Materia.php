@@ -2,20 +2,24 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Materia extends Model
 {
-    protected $fillable = ['nombre', 'año', 'tipo'];
-    
-    public function profesores()
+    use HasFactory;
+
+    protected $fillable = ['nombre', 'carrera', 'año', 'tipo_cursada'];
+
+    // Mutator para capitalizar la primera letra de cada palabra
+    public function setNombreAttribute($value)
     {
-        return $this->belongsToMany(User::class, 'materia_profesor');
+        $this->attributes['nombre'] = ucwords($value);
     }
-    
-    // Relación para materias conjuntas
-    public function materiasComponentes()
+
+    // Relación con docentes
+    public function docentes()
     {
-        return $this->belongsToMany(Materia::class, 'materia_conjunta', 'materia_conjunta_id', 'materia_id');
+        return $this->belongsToMany(Docente::class);
     }
 }

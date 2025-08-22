@@ -10,10 +10,10 @@ class Docente extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'user_id',
-        'nombre_completo', 
-        'dni',
-        'especialidad'
-    ];
+  protected $fillable = ['nombre_completo', 'dni', 'especialidad', 'user_id'];
+public function materias()
+{
+    return $this->belongsToMany(Materia::class);
+}
+
 }

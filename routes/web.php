@@ -6,7 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ReservaController;
 use App\Http\Controllers\AulaController;
 use App\Http\Controllers\RegistroDocenteController;
-
+use App\Http\Controllers\MateriaController;
 
 
 Route::get('/', function () {
@@ -40,6 +40,7 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/reservas/crear', [ReservaController::class, 'create'])->name('reservas.create');
 Route::post('/reservas', [ReservaController::class, 'store'])->name('reservas.store');
 Route::resource('aulas', AulaController::class);
+Route::resource('materias', MateriaController::class);
 // Panel de docentes (listado, ver, admin gestiona)
 Route::resource('docentes', RegistroDocenteController::class)->except(['show']);
 

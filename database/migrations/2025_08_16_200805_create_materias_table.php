@@ -15,13 +15,12 @@ return new class extends Migration
     $table->id();
     $table->string('nombre');
     $table->string('carrera');
-    $table->integer('año');
+    $table->string('año');
     $table->string('tipo_cursada');
     $table->timestamps();
-    Schema::table('materias', function (Blueprint $table) {
-    $table->boolean('es_conjunta')->default(false);
+ 
 });
-});
+
     }
 
     /**
