@@ -40,6 +40,14 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/reservas/crear', [ReservaController::class, 'create'])->name('reservas.create');
 Route::post('/reservas', [ReservaController::class, 'store'])->name('reservas.store');
 Route::resource('aulas', AulaController::class);
+// Panel de docentes (listado, ver, admin gestiona)
+Route::resource('docentes', RegistroDocenteController::class)->except(['show']);
+
+Route::get('docentes/create2', [RegistroDocenteController::class, 'create2'])->name('docentes.create2');
+Route::post('docentes/store2', [RegistroDocenteController::class, 'store2'])->name('docentes.store2');
+Route::get('/docentes/{docente}/edit', [RegistroDocenteController::class, 'edit'])->name('docentes.edit');
+Route::patch('/docentes/{docente}', [RegistroDocenteController::class, 'update'])->name('docentes.update');
+
 // ================== FALLBACK ==================
 Route::fallback(function () {
     return view('errors.404'); // asegurate de tener resources/views/errors/404.blade.php

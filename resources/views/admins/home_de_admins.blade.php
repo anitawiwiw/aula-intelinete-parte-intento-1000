@@ -57,13 +57,10 @@
     <!-- Sidebar navigation -->
     <div class="flex flex-col gap-4 overflow-y-auto">
       <button class="bg-[--color-primary] text-[--color-text-light] border-none py-3 rounded-full text-lg font-semibold cursor-pointer shadow-md hover:bg-[--color-primary] focus:outline-none focus:ring-2 focus:ring-[--color-primary] focus:ring-offset-2">Dashboard</button>
-<a href="{{ route('aulas.index') }}">
-  <button class="bg-gray-200 text-gray-700 border-none py-3 rounded-full text-lg font-semibold cursor-pointer shadow-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2">
-    aula +
-  </button>
-</a>
-
-      <button class="bg-gray-200 text-gray-700 border-none py-3 rounded-full text-lg font-semibold cursor-pointer shadow-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2">Ajustes</button>
+      <a href="{{ route('aulas.index') }}">
+      <button class="bg-gray-200 text-gray-700 border-none py-3 rounded-full text-lg font-semibold cursor-pointer shadow-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2">aulas </button></a>
+      <a href="{{ route('docentes.index') }}">
+      <button class="bg-gray-200 text-gray-700 border-none py-3 rounded-full text-lg font-semibold cursor-pointer shadow-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2">docentes</button></a>
       <button class="bg-gray-200 text-gray-700 border-none py-3 rounded-full text-lg font-semibold cursor-pointer shadow-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2">Estudiantes</button>
       <button class="bg-gray-200 text-gray-700 border-none py-3 rounded-full text-lg font-semibold cursor-pointer shadow-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2">Profesores</button>
     </div>

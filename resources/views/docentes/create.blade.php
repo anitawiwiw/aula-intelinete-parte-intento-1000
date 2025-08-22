@@ -159,7 +159,7 @@
                 
                 <div class="form-group">
                     <label for="dni">DNI</label>
-                    <input type="text" id="dni" name="dni" required 
+                    <input type="text" id="dni" name="dni" maxlength="8" required 
                            placeholder="Ingrese su número de documento">
                 </div>
                
