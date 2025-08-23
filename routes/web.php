@@ -50,9 +50,12 @@ Route::post('docentes/store2', [RegistroDocenteController::class, 'store2'])->na
 Route::get('/docentes/{docente}/edit', [RegistroDocenteController::class, 'edit'])->name('docentes.edit');
 Route::patch('/docentes/{docente}', [RegistroDocenteController::class, 'update'])->name('docentes.update');
 // ================== RUTAS RESERVAS (auth) ==================
+
 Route::get('/reservas', [ReservaController::class, 'index'])->name('reservas.index');
+Route::get('/reservas/create', [ReservaController::class, 'create'])->name('reservas.create');
 Route::post('/reservas', [ReservaController::class, 'store'])->name('reservas.store');
-Route::put('/reservas/{reserva}', [ReservaController::class, 'update'])->name('reservas.update');
+Route::get('/reservas/{reserva}/edit', [ReservaController::class, 'edit'])->name('reservas.edit');
+Route::patch('/reservas/{reserva}', [ReservaController::class, 'update'])->name('reservas.update');
 Route::delete('/reservas/{reserva}', [ReservaController::class, 'destroy'])->name('reservas.destroy');
 
 // ================== FALLBACK ==================

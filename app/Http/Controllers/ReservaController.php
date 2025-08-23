@@ -4,13 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\Reserva;
 use App\Models\Materia;
- use Illuminate\Http\Request;
+use Illuminate\Http\Request;
 
 class ReservaController extends Controller
 {
     public function index()
     {
-        $reservas = Reserva::with(['materia'])
+        $reservas = Reserva::with(['materia','user'])
             ->orderByRaw("FIELD(dia,'lunes','martes','miercoles','jueves','viernes')")
             ->orderBy('hora_inicio')
             ->paginate(20);
@@ -22,11 +22,30 @@ class ReservaController extends Controller
         return view('reservas.index', compact('reservas','materias','dias','tipos'));
     }
 
+    public function create()
+    {
+        $materias = Materia::orderBy('nombre')->get();
+        $dias     = ['lunes','martes','miercoles','jueves','viernes'];
+        $tipos    = ['opcion1' => 'Opción 1', 'opcion2' => 'Opción 2'];
+
+        return view('reservas.create', compact('materias','dias','tipos'));
+    }
+
     public function store(Request $request)
     {
         $data = $this->validateData($request);
+        $data['user_id'] = auth()->id() ?? null; // si tenés login
         Reserva::create($data);
         return redirect()->route('reservas.index')->with('ok', 'Reserva creada.');
+    }
+
+    public function edit(Reserva $reserva)
+    {
+        $materias = Materia::orderBy('nombre')->get();
+        $dias     = ['lunes','martes','miercoles','jueves','viernes'];
+        $tipos    = ['opcion1' => 'Opción 1', 'opcion2' => 'Opción 2'];
+
+        return view('reservas.edit', compact('reserva','materias','dias','tipos'));
     }
 
     public function update(Request $request, Reserva $reserva)

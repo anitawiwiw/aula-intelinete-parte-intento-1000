@@ -1,83 +1,36 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <h1 class="mb-3">Reservas</h1>
+<div class="top-bar">
+    <img src="{{ asset('images/logo.png') }}" alt="Logo" class="logo">
+    <a href="{{ route('home_de_admins') }}">home</a> |
+    <a href="{{ route('logout') }}">logout</a>
+</div>
 
-    @if(session('ok'))
-        <div class="alert alert-success">{{ session('ok') }}</div>
-    @endif
-    @if(session('error'))
-        <div class="alert alert-danger">{{ session('error') }}</div>
-    @endif
-    @if ($errors->any())
-        <div class="alert alert-danger">
-            <strong>Revisá los campos:</strong>
-            <ul class="mb-0">
-                @foreach ($errors->all() as $e) <li>{{ $e }}</li> @endforeach
-            </ul>
-        </div>
-    @endif
-
-    {{-- Crear nueva --}}
-    <div class="card mb-4">
-        <div class="card-header">Crear reserva</div>
-        <div class="card-body">
-            <form method="POST" action="{{ route('reservas.store') }}" class="row g-3">
-                @csrf
-
-                <div class="col-md-4">
-                    <label class="form-label">Materia</label>
-                    <select name="materia_id" class="form-select" required>
-                        <option value="">— Elegir —</option>
-                        @foreach ($materias as $m)
-                            <option value="{{ $m->id }}" @selected(old('materia_id')==$m->id)>{{ $m->nombre }}</option>
-                        @endforeach
-                    </select>
-                </div>
-
-                <div class="col-md-3">
-                    <label class="form-label">Día</label>
-                    <select name="dia" class="form-select" required>
-                        @foreach ($dias as $d)
-                            <option value="{{ $d }}" @selected(old('dia')==$d)>{{ ucfirst($d) }}</option>
-                        @endforeach
-                    </select>
-                </div>
-
-                <div class="col-md-2">
-                    <label class="form-label">Hora inicio</label>
-                    <input type="time" name="hora_inicio" class="form-control" step="1200" value="{{ old('hora_inicio') }}" required>
-                    <div class="form-text">Minutos: 00, 20 o 40</div>
-                </div>
-
-                <div class="col-md-2">
-                    <label class="form-label">Hora fin</label>
-                    <input type="time" name="hora_fin" class="form-control" step="1200" value="{{ old('hora_fin') }}" required>
-                </div>
-
-                <div class="col-md-3">
-                    <label class="form-label">Tipo origen</label>
-                    <select name="tipo_origen" class="form-select" required>
-                        @foreach ($tipos as $k=>$v)
-                            <option value="{{ $k }}" @selected(old('tipo_origen')==$k)>{{ $v }}</option>
-                        @endforeach
-                    </select>
-                </div>
-
-                <div class="col-12">
-                    <button class="btn btn-primary">Guardar</button>
-                </div>
-            </form>
-        </div>
+<div class="main-container">
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-button"></div>
+        <div class="sidebar-button"></div>
+        <div class="sidebar-button"></div>
+        <div class="sidebar-button"></div>
+        <div class="sidebar-button"></div>
     </div>
 
-    {{-- Tabla y edición inline --}}
-    <div class="card">
-        <div class="card-header">Listado</div>
-        <div class="card-body p-0">
-            <div class="table-responsive">
-            <table class="table table-striped mb-0 align-middle">
+    <!-- Contenido principal -->
+    <div class="content-area">
+        <div class="header-section">
+            <div class="header-left">
+                <h1 class="header-title">Reservas</h1>
+                <a href="{{ route('reservas.create') }}">
+                    <button class="create-button">Crear Reserva</button>
+                </a>
+            </div>
+        </div>
+
+        <!-- Tabla -->
+        <div class="table-section">
+            <table>
                 <thead>
                     <tr>
                         <th>ID</th>
@@ -87,93 +40,142 @@
                         <th>Fin</th>
                         <th>Tipo</th>
                         <th>Usuario</th>
-                        <th class="text-end">Acciones</th>
+                        <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse ($reservas as $r)
-                        <tr>
-                            <td>{{ $r->id }}</td>
-                            <td>{{ $r->materia->nombre ?? '—' }}</td>
-                            <td>{{ ucfirst($r->dia) }}</td>
-                            <td>{{ \Illuminate\Support\Carbon::parse($r->hora_inicio)->format('H:i') }}</td>
-                            <td>{{ \Illuminate\Support\Carbon::parse($r->hora_fin)->format('H:i') }}</td>
-                            <td>{{ ucfirst($r->tipo_origen) }}</td>
-                            <td>{{ $r->user->name ?? '—' }}</td>
-                            <td class="text-end">
-                                <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="collapse" data-bs-target="#edit-{{ $r->id }}">
-                                    Editar
-                                </button>
-
-                                <form action="{{ route('reservas.destroy', $r) }}" method="POST" class="d-inline"
-                                      onsubmit="return confirm('¿Eliminar reserva #{{ $r->id }}?')">
-                                    @csrf @method('DELETE')
-                                    <button class="btn btn-sm btn-outline-danger">Borrar</button>
-                                </form>
-                            </td>
-                        </tr>
-                        <tr class="collapse" id="edit-{{ $r->id }}">
-                            <td colspan="8">
-                                <form method="POST" action="{{ route('reservas.update', $r) }}" class="row g-3 p-3 border-top">
-                                    @csrf @method('PUT')
-
-                                    <div class="col-md-4">
-                                        <label class="form-label">Materia</label>
-                                        <select name="materia_id" class="form-select" required>
-                                            @foreach ($materias as $m)
-                                                <option value="{{ $m->id }}" @selected($r->materia_id==$m->id)>{{ $m->nombre }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-
-                                    <div class="col-md-3">
-                                        <label class="form-label">Día</label>
-                                        <select name="dia" class="form-select" required>
-                                            @foreach ($dias as $d)
-                                                <option value="{{ $d }}" @selected($r->dia==$d)>{{ ucfirst($d) }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-
-                                    <div class="col-md-2">
-                                        <label class="form-label">Inicio</label>
-                                        <input type="time" name="hora_inicio" class="form-control" step="1200"
-                                               value="{{ \Illuminate\Support\Carbon::parse($r->hora_inicio)->format('H:i') }}" required>
-                                    </div>
-
-                                    <div class="col-md-2">
-                                        <label class="form-label">Fin</label>
-                                        <input type="time" name="hora_fin" class="form-control" step="1200"
-                                               value="{{ \Illuminate\Support\Carbon::parse($r->hora_fin)->format('H:i') }}" required>
-                                    </div>
-
-                                    <div class="col-md-3">
-                                        <label class="form-label">Tipo origen</label>
-                                        <select name="tipo_origen" class="form-select" required>
-                                            @foreach ($tipos as $k=>$v)
-                                                <option value="{{ $k }}" @selected($r->tipo_origen==$k)>{{ $v }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-
-                                    <div class="col-12">
-                                        <button class="btn btn-primary">Actualizar</button>
-                                        <button class="btn btn-light" type="button" data-bs-toggle="collapse" data-bs-target="#edit-{{ $r->id }}">Cancelar</button>
-                                    </div>
-                                </form>
-                            </td>
-                        </tr>
-                    @empty
-                        <tr><td colspan="8" class="text-center p-4">Sin reservas aún.</td></tr>
-                    @endforelse
+                    @foreach($reservas as $r)
+                    <tr>
+                        <td>{{ $r->id }}</td>
+                        <td>{{ $r->materia->nombre ?? '—' }}</td>
+                        <td>{{ ucfirst($r->dia) }}</td>
+                        <td>{{ \Illuminate\Support\Carbon::parse($r->hora_inicio)->format('H:i') }}</td>
+                        <td>{{ \Illuminate\Support\Carbon::parse($r->hora_fin)->format('H:i') }}</td>
+                        <td>{{ ucfirst($r->tipo_origen) }}</td>
+                        <td>{{ $r->user->name ?? '—' }}</td>
+                        <td>
+                            <a href="{{ route('reservas.edit', $r->id) }}" class="edit-button">Editar</a>
+                            <form action="{{ route('reservas.destroy', $r->id) }}" method="POST" style="display:inline-block;" onsubmit="return confirm('¿Seguro que deseas eliminar esta reserva?');">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="delete-button">Eliminar</button>
+                            </form>
+                        </td>
+                    </tr>
+                    @endforeach
                 </tbody>
             </table>
-            </div>
         </div>
-        @if($reservas->hasPages())
-            <div class="card-footer">{{ $reservas->links() }}</div>
-        @endif
     </div>
 </div>
-@endsection
 
+<style>
+:root {
+  --color-primary: #6d3a7c;
+  --color-secondary: #a87cb0;
+  --color-background-main: #FDF9F5;
+  --color-background-sidebar: #d8d3dd;
+  --color-text-dark: #491c57;
+  --color-text-light: #FDF9F5;
+}
+body {
+  font-family: Arial, sans-serif;
+  margin: 0; padding: 0;
+  background-color: var(--color-background-main);
+  display: flex; flex-direction: column;
+}
+.top-bar {
+   position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 50px;
+  background-color: var(--color-secondary);
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 0 20px;
+  z-index: 1000;
+}
+.top-bar a {
+  color: var(--color-text-light);
+  text-decoration: none;
+  font-weight: bold; margin-left: 15px;
+}
+.top-bar .logo {
+  position: absolute;
+  left: 55px;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 250%;
+}
+.main-container { display: flex; }
+.sidebar {
+  position: fixed;
+  top: 50px;
+  left: 0;
+  width: 200px;
+  height: calc(100vh - 50px);
+  background-color: var(--color-background-sidebar);
+  padding: 40px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+}
+.sidebar-button {
+  background-color: var(--color-primary);
+  width: 100%; height: 40px;
+  border: none; border-radius: 20px;
+  cursor: pointer;
+}
+.content-area {
+  margin-left: 200px;
+  padding: 70px;
+  flex-grow: 1;
+}
+.header-section {
+  display: flex; justify-content: space-between;
+  align-items: flex-start; margin-bottom: 30px;
+}
+.header-left {
+  display: flex; flex-direction: column; gap: 15px;
+}
+.header-title {
+  font-family: 'Cinzel', serif;
+  font-size: 80px; color: var(--color-primary);
+  margin: 0;
+}
+.create-button {
+  background-color: var(--color-background-sidebar);
+  color: var(--color-primary);
+  border: none; padding: 12px 25px;
+  border-radius: 25px; font-weight: bold;
+  cursor: pointer; font-size: 16px;
+}
+.create-button:hover {
+  background-color: var(--color-secondary);
+}
+.table-section { margin-top: 20px; width: 100%; }
+table { width: 100%; border-collapse: collapse; font-size: 15px; }
+th, td { padding: 12px; text-align: center; }
+th {
+  background-color: var(--color-background-sidebar);
+  color: var(--color-text-dark);
+}
+tr:nth-child(even) { background-color: #f9f9f9; }
+.edit-button {
+  background-color: #3490dc; color: white;
+  padding: 6px 12px; border-radius: 5px;
+  text-decoration: none;
+}
+.edit-button:hover { background-color: #2779bd; }
+.delete-button {
+  background-color: #e3342f; color: white;
+  padding: 6px 12px; border: none;
+  border-radius: 5px; cursor: pointer;
+  margin-left: 8px;
+}
+.delete-button:hover { background-color: #cc1f1a; }
+</style>
+@endsection

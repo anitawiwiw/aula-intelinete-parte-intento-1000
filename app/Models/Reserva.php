@@ -26,4 +26,8 @@ class Reserva extends Model
     {
         return $this->belongsTo(Materia::class);
     }
+        public function user()  // <- esta es la relación que faltaba
+    {
+        return $this->belongsTo(User::class);
+    }
 }
