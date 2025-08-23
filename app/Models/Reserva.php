@@ -2,37 +2,28 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+ use Illuminate\Database\Eloquent\Model;
+ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Reserva extends Model
 {
     use HasFactory;
 
-  protected $fillable = [
-    'numero_reserva',
-    'fecha',
-    'hora_inicio',
-    'hora_fin',
-    'materia',
-    'creador_username',
-];
+    protected $fillable = [
+        'materia_id',
+        'dia',
+        'hora_inicio',
+        'hora_fin',
+        'tipo_origen',
+    ];
 
-    // Desactivar timestamps si no las usas
-    public $timestamps = false;
+    protected $casts = [
+        'hora_inicio' => 'datetime:H:i',
+        'hora_fin'    => 'datetime:H:i',
+    ];
 
-    // Opcional: generar el número de reserva automáticamente
-    public static function boot()
+    public function materia()
     {
-        parent::boot();
-
-        static::creating(function ($reserva) {
-            // Generar un número aleatorio único de 4 cifras
-            do {
-                $numero = mt_rand(1000, 9999);
-            } while (self::where('numero_reserva', $numero)->exists());
-
-            $reserva->numero_reserva = $numero;
-        });
+        return $this->belongsTo(Materia::class);
     }
 }

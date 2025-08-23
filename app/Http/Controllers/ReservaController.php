@@ -3,65 +3,62 @@
 namespace App\Http\Controllers;
 
 use App\Models\Reserva;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use App\Models\Materia;
+ use Illuminate\Http\Request;
 
 class ReservaController extends Controller
 {
-    public function create()
+    public function index()
     {
-        return view('reservas.create');
+        $reservas = Reserva::with(['materia'])
+            ->orderByRaw("FIELD(dia,'lunes','martes','miercoles','jueves','viernes')")
+            ->orderBy('hora_inicio')
+            ->paginate(20);
+
+        $materias = Materia::orderBy('nombre')->get();
+        $dias     = ['lunes','martes','miercoles','jueves','viernes'];
+        $tipos    = ['opcion1' => 'Opción 1', 'opcion2' => 'Opción 2'];
+
+        return view('reservas.index', compact('reservas','materias','dias','tipos'));
     }
 
- public function store(Request $request)
-{
-    $validated = $request->validate([
-        'fecha' => [
-            'required',
-            'date',
-            function ($attribute, $value, $fail) {
-                $year = date('Y', strtotime($value));
-                if ($year < 2025 || $year > 2030) {
-                    $fail('El año debe estar entre 2025 y 2030');
-                }
-            }
-        ],
-        'hora_inicio' => [
-            'required',
-            'date_format:H:i',
-            function ($attribute, $value, $fail) {
-                $hour = date('H', strtotime($value));
-                if ($hour < 7 || $hour >= 22) {
-                    $fail('El horario debe ser entre 7:00 y 22:00');
-                }
-            }
-        ],
-        'hora_fin' => [
-            'required',
-            'date_format:H:i',
-            'after:hora_inicio',
-            function ($attribute, $value, $fail) {
-                $hour = date('H', strtotime($value));
-                if ($hour < 7 || $hour > 22) {
-                    $fail('El horario debe ser entre 7:00 y 22:00');
-                }
-            }
-        ],
-        'materia' => 'required|string|max:255',
-    ]);
-
-    try {
-        $reserva = new Reserva();
-        $reserva->fecha = $validated['fecha'];
-        $reserva->hora_inicio = $validated['hora_inicio'];
-        $reserva->hora_fin = $validated['hora_fin'];
-        $reserva->materia = $validated['materia'];
-        $reserva->creador_username = Auth::user()->username;
-        
-        $reserva->save();
-
-        return redirect()->route('reservas.create')->with('success', 'Reserva creada correctamente');
-    } catch (\Exception $e) {
-        return back()->with('error', 'Error al guardar la reserva: '.$e->getMessage());
+    public function store(Request $request)
+    {
+        $data = $this->validateData($request);
+        Reserva::create($data);
+        return redirect()->route('reservas.index')->with('ok', 'Reserva creada.');
     }
-}}
+
+    public function update(Request $request, Reserva $reserva)
+    {
+        $data = $this->validateData($request, true, $reserva->id);
+        $reserva->update($data);
+        return redirect()->route('reservas.index')->with('ok', 'Reserva actualizada.');
+    }
+
+    public function destroy(Reserva $reserva)
+    {
+        $reserva->delete();
+        return redirect()->route('reservas.index')->with('ok', 'Reserva eliminada.');
+    }
+
+    /* ================= helpers ================= */
+
+    private function validateData(Request $request, bool $updating = false, ?int $reservaId = null): array
+    {
+        $request->merge([
+            'hora_inicio' => substr($request->input('hora_inicio'), 0, 5),
+            'hora_fin'    => substr($request->input('hora_fin'), 0, 5),
+        ]);
+
+        $data = $request->validate([
+            'materia_id'  => ['required','exists:materias,id'],
+            'dia'         => ['required','in:lunes,martes,miercoles,jueves,viernes'],
+            'hora_inicio' => ['required','date_format:H:i'],
+            'hora_fin'    => ['required','date_format:H:i','after:hora_inicio'],
+            'tipo_origen' => ['required','in:opcion1,opcion2'],
+        ]);
+
+        return $data;
+    }
+}

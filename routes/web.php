@@ -9,6 +9,7 @@ use App\Http\Controllers\RegistroDocenteController;
 use App\Http\Controllers\MateriaController;
 
 
+
 Route::get('/', function () {
     return view('welcome');  // Página inicial con login/registro
 })->name('welcome');
@@ -43,11 +44,16 @@ Route::resource('aulas', AulaController::class);
 Route::resource('materias', MateriaController::class);
 // Panel de docentes (listado, ver, admin gestiona)
 Route::resource('docentes', RegistroDocenteController::class)->except(['show']);
-
+// ================== RUTAS EXTRA PARA DOCENTES (no admin) ==================
 Route::get('docentes/create2', [RegistroDocenteController::class, 'create2'])->name('docentes.create2');
 Route::post('docentes/store2', [RegistroDocenteController::class, 'store2'])->name('docentes.store2');
 Route::get('/docentes/{docente}/edit', [RegistroDocenteController::class, 'edit'])->name('docentes.edit');
 Route::patch('/docentes/{docente}', [RegistroDocenteController::class, 'update'])->name('docentes.update');
+// ================== RUTAS RESERVAS (auth) ==================
+Route::get('/reservas', [ReservaController::class, 'index'])->name('reservas.index');
+Route::post('/reservas', [ReservaController::class, 'store'])->name('reservas.store');
+Route::put('/reservas/{reserva}', [ReservaController::class, 'update'])->name('reservas.update');
+Route::delete('/reservas/{reserva}', [ReservaController::class, 'destroy'])->name('reservas.destroy');
 
 // ================== FALLBACK ==================
 Route::fallback(function () {

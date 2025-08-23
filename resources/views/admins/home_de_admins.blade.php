@@ -61,9 +61,10 @@
       <button class="bg-gray-200 text-gray-700 border-none py-3 rounded-full text-lg font-semibold cursor-pointer shadow-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2">Aulas </button></a>
       <a href="{{ route('docentes.index') }}">
       <button class="bg-gray-200 text-gray-700 border-none py-3 rounded-full text-lg font-semibold cursor-pointer shadow-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2">Docentes</button></a>
-            <a href="{{ route('materias.index') }}">
+      <a href="{{ route('materias.index') }}">
       <button class="bg-gray-200 text-gray-700 border-none py-3 rounded-full text-lg font-semibold cursor-pointer shadow-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2">Materias</button></a>
-      <button class="bg-gray-200 text-gray-700 border-none py-3 rounded-full text-lg font-semibold cursor-pointer shadow-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2">Profesores</button>
+      <a href="{{ route('reservas.index') }}">
+      <button class="bg-gray-200 text-gray-700 border-none py-3 rounded-full text-lg font-semibold cursor-pointer shadow-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2">Reservas</button></a>
     </div>
   </div>
 
