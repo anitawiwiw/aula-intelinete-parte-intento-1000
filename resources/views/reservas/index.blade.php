@@ -34,6 +34,7 @@
                 <thead>
                     <tr>
                         <th>ID</th>
+                        <th>Aula</th>
                         <th>Materia</th>
                         <th>Día</th>
                         <th>Inicio</th>
@@ -47,6 +48,7 @@
                     @foreach($reservas as $r)
                     <tr>
                         <td>{{ $r->id }}</td>
+                        <td>{{ $r->aula->nombre ?? '—' }}</td>
                         <td>{{ $r->materia->nombre ?? '—' }}</td>
                         <td>{{ ucfirst($r->dia) }}</td>
                         <td>{{ \Illuminate\Support\Carbon::parse($r->hora_inicio)->format('H:i') }}</td>

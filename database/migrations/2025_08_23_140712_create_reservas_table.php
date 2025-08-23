@@ -9,6 +9,7 @@ return new class extends Migration {
     {
         Schema::create('reservas', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('aula_id')->constrained('aulas')->cascadeOnDelete();
             $table->foreignId('materia_id')->constrained('materias')->cascadeOnDelete();
             $table->enum('dia', ['lunes','martes','miercoles','jueves','viernes']);
             $table->time('hora_inicio');

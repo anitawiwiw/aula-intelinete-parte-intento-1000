@@ -58,7 +58,17 @@ document.addEventListener('DOMContentLoaded', function() {
 
         <form action="{{ route('reservas.store') }}" method="POST">
             @csrf
-
+            <div class="form-group">
+    <label>Aula</label>
+    <select name="aula_id" required>
+        <option value="">— Elegir —</option>
+        @foreach($aulas as $a)  {{-- Cambiado de $m a $a --}}
+            <option value="{{ $a->id }}" @selected(old('aula_id') == $a->id)>
+                {{ $a->nombre }}  {{-- Cambiado de $m->nombre a $a->nombre --}}
+            </option>
+        @endforeach
+    </select>
+</div>
             <div class="form-group">
                 <label>Materia</label>
                 <select name="materia_id" required>

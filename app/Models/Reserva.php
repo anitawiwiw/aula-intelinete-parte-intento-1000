@@ -10,6 +10,7 @@ class Reserva extends Model
     use HasFactory;
 
     protected $fillable = [
+        'aula_id',
         'materia_id',
         'dia',
         'hora_inicio',
@@ -21,7 +22,10 @@ class Reserva extends Model
         'hora_inicio' => 'datetime:H:i',
         'hora_fin'    => 'datetime:H:i',
     ];
-
+    public function aula()
+    {
+        return $this->belongsTo(Aula::class);
+    }
     public function materia()
     {
         return $this->belongsTo(Materia::class);
