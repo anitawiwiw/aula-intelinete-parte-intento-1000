@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Docente;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\QueryException; // Asegurate de importarlo
 
 class RegistroDocenteController extends Controller
 { 
@@ -35,10 +36,21 @@ public function index()
             'especialidad' => $request->especialidad,
             'user_id' => $request->user_id ?: null, // <-- usar null en vez de 0
         ]);
-
+ try {
+        Docente::create([
+            'user_id' => Auth::id(), 
+            'nombre_completo' => Auth::user()->name,
+            'dni' => $validated['dni'],
+            'especialidad' => $validated['especialidad'],
+        ]);
+    } catch (QueryException $e) {
+        // Aquí podés loguear el error si querés
+        \Log::error('Error al crear docente: '.$e->getMessage());
+        // Pero seguimos igual, no rompemos la app
+    }
         return redirect()->route('docentes.index')->with('success', 'Docente actualizado correctamente.');
     }
-
+    
     public function store(Request $request) {
            $validated = $request->validate([
           'dni' => 'required|string|size:8',

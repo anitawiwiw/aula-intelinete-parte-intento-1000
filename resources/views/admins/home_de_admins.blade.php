@@ -1,149 +1,171 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Panel de Administrador</title>
-  <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Google Font: Cinzel for headings -->
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&display=swap" rel="stylesheet">
-  <!-- Google Font: Inter for body text -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --color-primary: #6e3b7d; /* Purpura */
-      --color-secondary: #a97cb0; /* Lirio */
-      --color-tertiary: #d8bce5; /* Malva */
-      --color-background: #fefaf4; /* Crema */
-      --color-text-dark: #333;
-      --color-text-light: white;
-    }
+@extends('layouts.app')
 
-    body {
-      font-family: 'Inter', sans-serif;
-      background-color: var(--color-background);
-    }
-    
-    .logo {
-      font-family: 'Cinzel', serif;
-    }
+@section('content')
+<div class="top-bar flex justify-between px-6">
+    <img src="{{ asset('images/logo.png') }}" alt="Logo" class="logo">
+    <span class="admin-text">Administrador</span>
+</div>
 
-    /* Custom CSS for button effects */
-    .sidebar button {
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
-
-    .sidebar button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    }
-
-    .sidebar button:active {
-      transform: translateY(0);
-      box-shadow: none;
-    }
-  </style>
-</head>
-<body class="flex min-h-screen">
-
+<div class="main-container">
   <!-- Sidebar -->
-  <div class="fixed top-0 left-0 bottom-0 w-64 bg-[--color-tertiary] text-[--color-text-dark] p-4 flex flex-col gap-4">
-    <!-- Logo and top bar area -->
-    <div class="flex items-center justify-center h-16 bg-[--color-secondary] -m-4 mb-4">
-      <div class="logo font-bold text-2xl text-[--color-text-dark]">Panel</div>
-    </div>
-    
-    <!-- Sidebar navigation -->
-    <div class="flex flex-col gap-4 overflow-y-auto">
-      <button class="bg-[--color-primary] text-[--color-text-light] border-none py-3 rounded-full text-lg font-semibold cursor-pointer shadow-md hover:bg-[--color-primary] focus:outline-none focus:ring-2 focus:ring-[--color-primary] focus:ring-offset-2">Dashboard</button>
-      <a href="{{ route('aulas.index') }}">
-      <button class="bg-gray-200 text-gray-700 border-none py-3 rounded-full text-lg font-semibold cursor-pointer shadow-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2">Aulas </button></a>
-      <a href="{{ route('docentes.index') }}">
-      <button class="bg-gray-200 text-gray-700 border-none py-3 rounded-full text-lg font-semibold cursor-pointer shadow-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2">Docentes</button></a>
-      <a href="{{ route('materias.index') }}">
-      <button class="bg-gray-200 text-gray-700 border-none py-3 rounded-full text-lg font-semibold cursor-pointer shadow-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2">Materias</button></a>
-      <a href="{{ route('reservas.index') }}">
-      <button class="bg-gray-200 text-gray-700 border-none py-3 rounded-full text-lg font-semibold cursor-pointer shadow-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2">Reservas</button></a>
-    </div>
+  <div class="sidebar">
+    <a href="{{ route('aulas.index') }}" class="sidebar-button">Aulas</a>
+    <a href="{{ route('docentes.index') }}" class="sidebar-button">Docentes</a>
+    <a href="{{ route('materias.index') }}" class="sidebar-button">Materias</a>
+    <a href="{{ route('reservas.index') }}" class="sidebar-button">Reservas</a>
   </div>
 
-  <!-- Main content area -->
-  <div class="flex-1 ml-64 p-8 pt-20">
-    <!-- Top Bar -->
-    <div class="fixed top-0 left-64 right-0 h-16 bg-[--color-secondary] flex justify-between items-center px-8 z-10 shadow-md">
-      <div></div>
-      <div class="flex items-center gap-4">
-        <span class="text-white text-base">Hola, <span id="name"></span></span>
-        <button class="text-white text-base cursor-pointer hover:underline">Cerrar Sesión</button>
-      </div>
-    </div>
-    
-    <!-- Content Header -->
-    <div class="mb-10">
-      <h1 class="font-['Cinzel'] text-6xl text-[--color-primary] text-left mb-1">Bienvenido</h1>
-      <p id="welcome-message" class="text-left text-[--color-secondary] text-lg tracking-widest mb-4"></p>
+  <!-- Contenido principal -->
+  <div class="content-area">
+    <!-- Welcome -->
+    <h1 class="header-title">Bienvenido</h1>
+    <div class="user-name">
+        {{ Auth::user()->name }}
     </div>
 
-    <!-- Main Section -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-      <!-- Photo Box with animation -->
-      <div id="photo-container" class="relative bg-gray-300 rounded-2xl w-full h-96 overflow-hidden shadow-xl border-4 border-black transition-transform duration-300 ease-in-out hover:scale-105">
-        <img id="dynamic-image" src="https://placehold.co/800x600/a97cb0/FFFFFF?text=Tu+Foto+Aquí" alt="foto" class="absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ease-in-out opacity-100">
-        <div class="absolute inset-0 flex justify-center items-center bg-black bg-opacity-30 opacity-0 hover:opacity-100 transition-opacity duration-300 cursor-pointer">
-          <p class="text-white text-xl font-bold">Ver Detalles</p>
+    <!-- Imagen principal decorada -->
+    <div class="image-container">
+        <div class="image-frame">
+            <img src="{{ asset('images/aulas.jpeg') }}" alt="Aulas" class="main-image">
+            <div class="overlay-text">Gestión de Aulas</div>
         </div>
-      </div>
-      
-      <!-- Placeholder for dynamic content or statistics -->
-      <div class="bg-white rounded-2xl p-6 shadow-xl border border-gray-200">
-        <h2 class="text-2xl font-bold text-[--color-primary] mb-4">Resumen Semanal</h2>
-        <p class="text-[--color-text-dark] text-justify">
-          Esta sección podría mostrar estadísticas dinámicas como la cantidad de nuevos usuarios, el número de clases programadas, o un resumen de la actividad reciente. La idea es que este contenido cambie según el rol y las acciones del usuario.
-        </p>
-        <div class="mt-6">
-          <button class="w-full bg-[--color-secondary] text-[--color-text-light] py-3 rounded-full font-semibold shadow-md hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2">Ver Reporte Completo</button>
-        </div>
-      </div>
     </div>
   </div>
+</div>
 
-<script>
-  // JavaScript para hacer la vista más dinámica
-  const userNameEl = document.getElementById('user-name');
-  const welcomeMessageEl = document.getElementById('welcome-message');
-  const dynamicImageEl = document.getElementById('dynamic-image');
+<style>
+:root {
+  --color-primary: #6d3a7c;
+  --color-secondary: #a87cb0;
+  --color-background-main: #FDF9F5;
+  --color-background-sidebar: #d8d3dd;
+  --color-text-dark: #491c57;
+  --color-text-light: #FDF9F5;
+}
 
-  // Datos de usuario (simulados)
-  const userData = {
-    nombre: "Administrador",
-    rol: "Admin",
-    foto: "https://placehold.co/800x600/a97cb0/FFFFFF?text=Panel+de+Admin",
-    // Lista de fotos alternativas para el efecto dinámico
-    fotosAlternativas: [
-      "https://placehold.co/800x600/a97cb0/FFFFFF?text=Bienvenido",
-      "https://placehold.co/800x600/a97cb0/FFFFFF?text=Gestión+de+Contenido",
-      "https://placehold.co/800x600/a97cb0/FFFFFF?text=Actividad+Reciente"
-    ]
-  };
+body {
+  font-family: Arial, sans-serif;
+  margin: 0; padding: 0;
+  background-color: var(--color-background-main);
+  display: flex;
+  flex-direction: column;
+}
 
-  // Función para actualizar el contenido de la página
-  function updateView() {
-    userNameEl.textContent = userData.nombre;
-    welcomeMessageEl.textContent = `Panel de Administración - ${userData.rol}`;
-    dynamicImageEl.src = userData.foto;
-  }
+/* Top bar */
+.top-bar {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%;
+  height: 60px;
+  background: linear-gradient(90deg, var(--color-secondary), var(--color-primary));
+  align-items: center;
+  z-index: 1000;
+}
+.top-bar .logo {
+  height: 50px;
+}
+.admin-text {
+  font-family: 'Cinzel', serif;
+  font-size: 20px;
+  color: var(--color-text-light);
+  font-weight: bold;
+}
 
-  // Simular un cambio de imagen cada 5 segundos
-  let currentImageIndex = 0;
-  setInterval(() => {
-    currentImageIndex = (currentImageIndex + 1) % userData.fotosAlternativas.length;
-    dynamicImageEl.src = userData.fotosAlternativas[currentImageIndex];
-  }, 5000);
+/* Sidebar */
+.sidebar {
+  position: fixed;
+  top: 60px;
+  left: 0;
+  width: 200px;
+  height: calc(100vh - 60px);
+  background-color: var(--color-background-sidebar);
+  padding: 30px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+}
+.sidebar-button {
+  background-color: var(--color-primary);
+  width: 100%;
+  height: 40px;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-light);
+  text-decoration: none;
+  font-weight: bold;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+.sidebar-button:hover {
+  background-color: var(--color-secondary);
+  transform: translateY(-2px);
+}
 
-  // Llamar a la función al cargar la página
-  window.onload = updateView;
-</script>
+/* Contenido principal */
+.content-area {
+  margin-left: 200px;
+  padding: 80px 40px 40px 40px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
-</body>
-</html>
+/* Welcome header */
+.header-title {
+  font-family: 'Cinzel', serif;
+  font-size: 80px;
+  color: var(--color-primary);
+  margin-bottom: 10px;
+}
+.user-name {
+  font-family: 'Inter', sans-serif;
+  font-size: 22px;
+  color: var(--color-text-dark);
+  margin-bottom: 40px;
+  padding: 10px 20px;
+  border-radius: 12px;
+  background-color: rgba(255, 255, 255, 0.6);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* Imagen principal decorada */
+.image-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+.image-frame {
+  position: relative;
+  max-width: 1200px;
+  width: 100%;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+  transition: transform 0.3s ease;
+}
+.image-frame:hover {
+  transform: scale(1.02);
+}
+.main-image {
+  width: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+/* Overlay sutil */
+.overlay-text {
+  position: absolute;
+  bottom: 15px;
+  left: 20px;
+  font-family: 'Cinzel', serif;
+  font-size: 28px;
+  color: var(--color-text-light);
+  text-shadow: 1px 1px 6px rgba(0,0,0,0.4);
+}
+</style>
+@endsection
