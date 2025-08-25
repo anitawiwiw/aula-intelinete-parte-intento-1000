@@ -40,13 +40,39 @@ function cargarHorarios() {
     });
 }
 
-// Cargar horarios al cargar la página si ya hay turno seleccionado
+// Validación de horarios (igual que en create)
 document.addEventListener('DOMContentLoaded', function() {
     if(document.getElementById('turno').value) {
         cargarHorarios();
     }
+
+    document.querySelector('form').addEventListener('submit', function(e) {
+        let aula_id   = document.querySelector('select[name="aula_id"]').value;
+        let dia       = document.querySelector('select[name="dia"]').value;
+        let inicio    = document.getElementById('hora_inicio').value;
+        let fin       = document.getElementById('hora_fin').value;
+        let reservaId = "{{ $reserva->id }}"; // Para excluir la reserva actual
+
+        if (!aula_id || !dia || !inicio || !fin) return;
+
+        e.preventDefault(); // detenemos envío hasta chequear
+
+        fetch(`/api/verificar-superposicion?aula_id=${aula_id}&dia=${dia}&inicio=${inicio}&fin=${fin}&reserva_id=${reservaId}`)
+            .then(res => res.json())
+            .then(data => {
+                if (data.superpuesto) {
+                    alert("⚠️ El horario se sobrepone con otra reserva existente.");
+                } else {
+                    e.target.submit();
+                }
+            })
+            .catch(() => {
+                alert("❌ Error al verificar disponibilidad. Intenta de nuevo.");
+            });
+    });
 });
 </script>
+
 @section('content')
 <div class="background">
     <img src="{{ asset('images/burbujas.jpg') }}" alt="Fondo burbujas">
@@ -59,22 +85,25 @@ document.addEventListener('DOMContentLoaded', function() {
         <form action="{{ route('reservas.update', $reserva->id) }}" method="POST">
             @csrf
             @method('PATCH')
+
             <div class="form-group">
-    <label>Aula</label>
-    <select name="aula_id" required>
-        <option value="">— Elegir —</option>
-        @foreach($aulas as $a)  {{-- Cambiado de $m a $a --}}
-            <option value="{{ $a->id }}" @selected(old('aula_id') == $a->id)>
-                {{ $a->nombre }}  {{-- Cambiado de $m->nombre a $a->nombre --}}
-            </option>
-        @endforeach
-    </select>
-</div>
+                <label>Aula</label>
+                <select name="aula_id" required>
+                    @foreach($aulas as $a)
+                        <option value="{{ $a->id }}" @selected(old('aula_id', $reserva->aula_id) == $a->id)>
+                            {{ $a->nombre }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+
             <div class="form-group">
                 <label>Materia</label>
                 <select name="materia_id" required>
                     @foreach($materias as $m)
-                        <option value="{{ $m->id }}" @selected($reserva->materia_id==$m->id)>{{ $m->nombre }}</option>
+                        <option value="{{ $m->id }}" @selected(old('materia_id', $reserva->materia_id) == $m->id)>
+                            {{ $m->nombre }}
+                        </option>
                     @endforeach
                 </select>
             </div>
@@ -83,39 +112,43 @@ document.addEventListener('DOMContentLoaded', function() {
                 <label>Día</label>
                 <select name="dia" required>
                     @foreach($dias as $d)
-                        <option value="{{ $d }}" @selected($reserva->dia==$d)>{{ ucfirst($d) }}</option>
+                        <option value="{{ $d }}" @selected(old('dia', $reserva->dia) == $d)>
+                            {{ ucfirst($d) }}
+                        </option>
                     @endforeach
                 </select>
             </div>
 
-<div class="form-group">
-    <label>Turno</label>
-    <select id="turno" onchange="cargarHorarios()" required>
-        <option value="">— Elegir turno —</option>
-        <option value="maniana" @selected(old('turno', $reserva->turno ?? '')=='maniana')>Mañana</option>
-        <option value="tarde" @selected(old('turno', $reserva->turno ?? '')=='tarde')>Tarde</option>
-    </select>
-</div>
+            <div class="form-group">
+                <label>Turno</label>
+                <select id="turno" name="turno" onchange="cargarHorarios()" required>
+                    <option value="">— Elegir turno —</option>
+                    <option value="maniana" @selected(old('turno', $reserva->turno)=='maniana')>Mañana</option>
+                    <option value="tarde" @selected(old('turno', $reserva->turno)=='tarde')>Tarde</option>
+                </select>
+            </div>
 
-<div class="form-group">
-    <label>Hora inicio</label>
-    <select id="hora_inicio" name="hora_inicio" required>
-        <option value="">— Elegir —</option>
-    </select>
-</div>
+            <div class="form-group">
+                <label>Hora inicio</label>
+                <select id="hora_inicio" name="hora_inicio" required>
+                    <option value="">— Elegir —</option>
+                </select>
+            </div>
 
-<div class="form-group">
-    <label>Hora fin</label>
-    <select id="hora_fin" name="hora_fin" required>
-        <option value="">— Elegir —</option>
-    </select>
-</div>
+            <div class="form-group">
+                <label>Hora fin</label>
+                <select id="hora_fin" name="hora_fin" required>
+                    <option value="">— Elegir —</option>
+                </select>
+            </div>
 
             <div class="form-group">
                 <label>Tipo origen</label>
                 <select name="tipo_origen" required>
                     @foreach($tipos as $k=>$v)
-                        <option value="{{ $k }}" @selected($reserva->tipo_origen==$k)>{{ $v }}</option>
+                        <option value="{{ $k }}" @selected(old('tipo_origen', $reserva->tipo_origen)==$k)>
+                            {{ $v }}
+                        </option>
                     @endforeach
                 </select>
             </div>
@@ -127,4 +160,5 @@ document.addEventListener('DOMContentLoaded', function() {
         </form>
     </div>
 </div>
+
 @endsection

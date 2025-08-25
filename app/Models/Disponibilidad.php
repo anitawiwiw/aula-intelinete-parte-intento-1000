@@ -2,19 +2,19 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Disponibilidad extends Model
 {
-    protected $fillable = ['hora_inicio', 'hora_fin', 'dia', 'turno', 'estado', 'aula_id'];
-    
+    use HasFactory;
+
+    protected $fillable = [
+        'aula_id','dia','turno','hora_inicio','hora_fin','estado'
+    ];
+
     public function aula()
     {
         return $this->belongsTo(Aula::class);
-    }
-    
-    public function reserva()
-    {
-        return $this->hasOne(Reserva::class);
     }
 }

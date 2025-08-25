@@ -57,6 +57,8 @@ Route::post('/reservas', [ReservaController::class, 'store'])->name('reservas.st
 Route::get('/reservas/{reserva}/edit', [ReservaController::class, 'edit'])->name('reservas.edit');
 Route::patch('/reservas/{reserva}', [ReservaController::class, 'update'])->name('reservas.update');
 Route::delete('/reservas/{reserva}', [ReservaController::class, 'destroy'])->name('reservas.destroy');
+// web.php
+Route::get('/verificar-reserva', [ReservaController::class, 'verificarDisponibilidad'])->name('reservas.verificar');
 
 // ================== FALLBACK ==================
 Route::fallback(function () {
