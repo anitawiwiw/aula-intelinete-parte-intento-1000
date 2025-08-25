@@ -20,48 +20,40 @@
             <div class="form-group">
                 <label for="carrera">Carrera</label>
                 <select id="carrera" name="carrera" required>
-                    <option value="Opcion 1">Opción 1</option>
-                    <option value="Opcion 2">Opción 2</option>
+                    <option value="Opcion 1" {{ old('carrera')=='Opcion 1' ? 'selected' : '' }}>Opción 1</option>
+                    <option value="Opcion 2" {{ old('carrera')=='Opcion 2' ? 'selected' : '' }}>Opción 2</option>
                 </select>
             </div>
 
             <div class="form-group">
                 <label for="año">Año</label>
                 <select id="año" name="año" required>
-                    <option value="1A">1A</option>
-                    <option value="1B">1B</option>
-                    <option value="1C">1C</option>
-                    <option value="2A">2A</option>
-                    <option value="2B">2B</option>
-                    <option value="2C">2C</option>
-                    <option value="3A">3A</option>
-                    <option value="3B">3B</option>
-                    <option value="3C">3C</option>
-                    <option value="4A">4A</option>
-                    <option value="4B">4B</option>
-                    <option value="5A">5A</option>
+                    @foreach(['1A','1B','1C','2A','2B','2C','3A','3B','3C','4A','4B','5A'] as $ano)
+                        <option value="{{ $ano }}" {{ old('año')==$ano ? 'selected' : '' }}>{{ $ano }}</option>
+                    @endforeach
                 </select>
             </div>
 
             <div class="form-group">
                 <label for="tipo_cursada">Tipo de Cursada</label>
                 <select id="tipo_cursada" name="tipo_cursada" required>
-                    <option value="basica">Básica</option>
-                    <option value="especializada">Especializada</option>
+                    <option value="basica" {{ old('tipo_cursada')=='basica' ? 'selected' : '' }}>Básica</option>
+                    <option value="especializada" {{ old('tipo_cursada')=='especializada' ? 'selected' : '' }}>Especializada</option>
                 </select>
             </div>
 
-                       <div class="form-group">
-    <label for="docentes">Docentes</label>
-    <small style="display:block; color: #555; margin-bottom: 5px;">Mantén presionada la tecla Ctrl (o Cmd en Mac) para seleccionar varios docentes</small>
-    <select id="docentes" name="docentes[]" multiple>
-        @foreach($docentes as $docente)
-            <option value="{{ $docente->id }}" {{ $materia->docentes->contains($docente->id) ? 'selected' : '' }}>
-                {{ $docente->nombre_completo }}
-            </option>
-        @endforeach
-    </select>
-</div>
+            <div class="form-group">
+                <label for="docentes">Docentes</label>
+                <small style="display:block; color: #555; margin-bottom: 5px;">Mantén presionada la tecla Ctrl (o Cmd en Mac) para seleccionar varios docentes</small>
+                <select id="docentes" name="docentes[]" multiple>
+                    @foreach($docentes as $docente)
+                        <option value="{{ $docente->id }}" 
+                            {{ collect(old('docentes'))->contains($docente->id) ? 'selected' : '' }}>
+                            {{ $docente->nombre_completo }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
 
             <div style="display:flex; justify-content: space-between; gap:10px;">
                 <a href="{{ route('materias.index') }}" class="btn-secondary">Cancelar</a>
@@ -71,3 +63,4 @@
     </div>
 </div>
 @endsection
+

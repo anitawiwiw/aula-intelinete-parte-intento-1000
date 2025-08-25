@@ -10,31 +10,43 @@
     box-sizing: border-box;
     margin: 0; padding: 0;
   }
-
+:root {
+  --color-primary: #6d3a7c;
+  --color-secondary: #a87cb0;
+  --color-background-main: #FDF9F5;
+  --color-background-sidebar: #d8d3dd;
+  --color-text-dark: #491c57;
+  --color-text-light: #FDF9F5;
+}
   html, body {
     height: 100%;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color: white;
-    background: url('https://img.freepik.com/vector-gratis/fondo-abstracto-colores_23-2148811699.jpg?semt=ais_hybrid&w=740&q=80') no-repeat center center/cover;
+    background: url('/images/burbujas.jpg') no-repeat center center/cover;
   }
 
   /* Barra superior */
   header {
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    height: 60px;
-    background: rgba(0,0,0,0.5); /* negro 50% opaco */
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 2rem;
-    z-index: 1000;
+     position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 50px;
+  background-color: var(--color-secondary);
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 0 20px;
+  z-index: 1000;
   }
 
   /* Logo a la izquierda */
   .logo img {
-    height: 40px;
-    filter: brightness(1);
+    position: absolute;
+  left: 55px;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 250%;
   }
 
   /* Menú derecha */
@@ -52,12 +64,12 @@
     transition: color 0.3s ease;
   }
   nav a:hover {
-    color: #99ccff;
+    color: var( --color-text-light);
   }
 
   /* Separador barra */
   nav span.separator {
-    color: white;
+     color: var( --color-text-light);
     user-select: none;
     font-weight: 400;
   }
@@ -112,7 +124,7 @@
 
 <header>
   <div class="logo">
-    <img src="https://esim.edu.ar/web/wp-content/uploads/2021/08/innovacion.png" alt="Logo Innovación" />
+    <img src="{{ asset('images/logo.png') }}" alt="Logo" class="logo">
   </div>
   <nav>
     <a href="{{ route('register.form') }}">Registrarse</a>

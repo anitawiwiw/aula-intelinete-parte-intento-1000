@@ -4,16 +4,16 @@
 <div class="top-bar">
     <img src="{{ asset('images/logo.png') }}" alt="Logo" class="logo">
   <a href="{{ route('home_de_admins') }}">home</a> |
-  <a href="{{ route('logout') }}">logout</a>
+  
 </div>
 
 <div class="main-container">
   <!-- Sidebar -->
   <div class="sidebar">
-    <div class="sidebar-button"></div>
-    <div class="sidebar-button"></div>
-    <div class="sidebar-button"></div>
-    <div class="sidebar-button"></div>
+    <a href="{{ route('aulas.index') }}" class="sidebar-button">Aulas</a>
+    <a href="{{ route('docentes.index') }}" class="sidebar-button">Docentes</a>
+    <a href="{{ route('materias.index') }}" class="sidebar-button">Materias</a>
+    <a href="{{ route('reservas.index') }}" class="sidebar-button">Reservas</a>
     <div class="sidebar-button"></div>
   </div>
 
@@ -29,7 +29,7 @@
     </div>
 
     <!-- Tabla -->
-    <div class="table-section">
+    <div class="table-section scrollable-table">
       <table>
         <thead>
           <tr>
@@ -80,6 +80,18 @@ body {
   background-color: var(--color-background-main);
   display: flex; flex-direction: column;
 }
+/* Hace scroll vertical cuando hay muchas filas */
+.scrollable-table {
+    max-height: 500px; /* Ajusta según necesites */
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+}
+.scrollable-table table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
 .top-bar {
    position: fixed;
   top: 0;
@@ -121,11 +133,23 @@ body {
 
 }
 .sidebar-button {
-  background-color: var(--color-primary);
-  width: 100%; height: 40px;
-  border: none; border-radius: 20px;
-  cursor: pointer;
+    background-color: var(--color-primary);
+    width: 100%;
+    height: 40px;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-text-light); /* texto en color claro */
+    text-decoration: none; /* quitar subrayado para enlaces */
+    font-weight: bold;
 }
+.sidebar-button:hover {
+    background-color: var(--color-secondary);
+}
+
 .content-area {
   margin-left: 200px; /* mismo ancho de la sidebar */
   padding: 70px; /* padding-top suficiente para no tapar top-bar */
