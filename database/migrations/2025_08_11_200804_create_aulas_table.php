@@ -14,7 +14,7 @@ return new class extends Migration
       Schema::create('aulas', function (Blueprint $table) {
     $table->id();
     $table->string('nombre'); // letras, exactas, maker, maker lab, laboratorio, etc.
-    $table->integer('ubicacion'); // 1 al 7
+    $table->integer('ubicacion'); // 1 al 9
     $table->integer('capacidad')->default(30);
     $table->timestamps();
     });

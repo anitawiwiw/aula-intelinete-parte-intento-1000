@@ -7,7 +7,7 @@ use App\Http\Controllers\ReservaController;
 use App\Http\Controllers\AulaController;
 use App\Http\Controllers\RegistroDocenteController;
 use App\Http\Controllers\MateriaController;
-
+use App\Http\Controllers\HorarioController;
 
 
 Route::get('/', function () {
@@ -31,7 +31,16 @@ Route::post('/register', [AuthController::class, 'register'])->name('register');
 
 Route::get('/docentes/create', [RegistroDocenteController::class, 'create'])->name('docentes.create');
 Route::post('/docentes', [RegistroDocenteController::class, 'store'])->name('docentes.store');
+Route::get('/horarios/{anio}/{division}/{turno}', [HorarioController::class, 'show'])
+    ->where([
+        'anio' => '[1-7]',           // ajustá si tu rango es otro
+        'division' => '[A-Z]',
+        'turno' => 'manana|tarde'
+    ])
+    ->name('horarios.show');
 
+// atajo para probar 5° A (mañana):
+Route::get('/horarios/5A', fn() => redirect()->route('horarios.show', [5, 'A', 'manana']));
 // ================== LOGIN / LOGOUT ==================
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login.form');
 Route::post('/login', [AuthController::class, 'login'])->name('login');
