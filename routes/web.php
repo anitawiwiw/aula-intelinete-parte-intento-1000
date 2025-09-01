@@ -31,16 +31,22 @@ Route::post('/register', [AuthController::class, 'register'])->name('register');
 
 Route::get('/docentes/create', [RegistroDocenteController::class, 'create'])->name('docentes.create');
 Route::post('/docentes', [RegistroDocenteController::class, 'store'])->name('docentes.store');
+// Rutas para horarios
+// Mostrar selector de curso
+Route::get('/horarios', [HorarioController::class, 'index'])->name('horarios.index');
+
+// Procesar selección de curso
+Route::get('/horarios/seleccionar', [HorarioController::class, 'seleccionar'])->name('horarios.select');
+
+// Ver horario específico
 Route::get('/horarios/{anio}/{division}/{turno}', [HorarioController::class, 'show'])
     ->where([
-        'anio' => '[1-7]',           // ajustá si tu rango es otro
-        'division' => '[A-Z]',
+        'anio' => '[1-5]',
+        'division' => '[A-C]',
         'turno' => 'manana|tarde'
     ])
     ->name('horarios.show');
 
-// atajo para probar 5° A (mañana):
-Route::get('/horarios/5A', fn() => redirect()->route('horarios.show', [5, 'A', 'manana']));
 // ================== LOGIN / LOGOUT ==================
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login.form');
 Route::post('/login', [AuthController::class, 'login'])->name('login');
