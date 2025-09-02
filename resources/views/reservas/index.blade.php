@@ -30,45 +30,45 @@
 
         <!-- Tabla -->
         <div class="table-section scrollable-table">
-            <table>
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Aula</th>
-                        <th>Materia</th>
-                        <th>Día</th>
-                        <th>Inicio</th>
-                        <th>Fin</th>
-                        <th>Tipo</th>
-                        <th>Usuario</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($reservas as $r)
-                    <tr>
-                        <td>{{ $r->id }}</td>
-                        <td>{{ $r->aula->nombre ?? '—' }}</td>
-                        <td>{{ $r->materia->nombre ?? '—' }}</td>
-                        <td>{{ ucfirst($r->dia) }}</td>
-                        <td>{{ \Illuminate\Support\Carbon::parse($r->hora_inicio)->format('H:i') }}</td>
-                        <td>{{ \Illuminate\Support\Carbon::parse($r->hora_fin)->format('H:i') }}</td>
-                        <td>{{ ucfirst($r->tipo_origen) }}</td>
-                        <td>{{ $r->user->name ?? '—' }}</td>
-                        <td>
-                            <a href="{{ route('reservas.edit', $r->id) }}" class="edit-button">Editar</a>
-                            <form action="{{ route('reservas.destroy', $r->id) }}" method="POST" style="display:inline-block;" onsubmit="return confirm('¿Seguro que deseas eliminar esta reserva?');">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="delete-button">Eliminar</button>
-                            </form>
-                        </td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
-    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Aula</th>
+                <th>Materia</th>
+                <th>Día</th>
+                <th>Inicio</th>
+                <th>Fin</th>
+                <th>Trimestre</th>
+                <th>Tipo</th>
+                <th>Usuario</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach($reservas as $r)
+            <tr>
+                <td>{{ $r->id }}</td>
+                <td>{{ $r->aula->nombre ?? '—' }}</td>
+                <td>{{ $r->materia->nombre ?? '—' }}</td>
+                <td>{{ ucfirst($r->dia) }}</td>
+                <td>{{ \Illuminate\Support\Carbon::parse($r->hora_inicio)->format('H:i') }}</td>
+                <td>{{ \Illuminate\Support\Carbon::parse($r->hora_fin)->format('H:i') }}</td>
+                <td>{{ $r->trimestre }}</td>
+                <td>{{ ucfirst($r->tipo_origen) }}</td>
+                <td>{{ $r->user->name ?? '—' }}</td>
+                <td>
+                    <a href="{{ route('reservas.edit', $r->id) }}" class="edit-button">Editar</a>
+                    <form action="{{ route('reservas.destroy', $r->id) }}" method="POST" style="display:inline-block;" onsubmit="return confirm('¿Seguro que deseas eliminar esta reserva?');">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="delete-button">Eliminar</button>
+                    </form>
+                </td>
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
 </div>
 
 <style>

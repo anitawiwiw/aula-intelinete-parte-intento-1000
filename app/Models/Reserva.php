@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
- use Illuminate\Database\Eloquent\Model;
- use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Reserva extends Model
 {
@@ -16,23 +16,26 @@ class Reserva extends Model
         'hora_inicio',
         'hora_fin',
         'tipo_origen',
+        'trimestre',
     ];
 
     protected $casts = [
         'hora_inicio' => 'datetime:H:i',
         'hora_fin'    => 'datetime:H:i',
     ];
+    
     public function aula()
     {
         return $this->belongsTo(Aula::class);
     }
+    
     public function materia()
     {
         return $this->belongsTo(Materia::class);
     }
-        public function user()  // <- esta es la relación que faltaba
+    
+    public function user()
     {
         return $this->belongsTo(User::class);
     }
-    
 }

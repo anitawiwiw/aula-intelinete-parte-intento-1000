@@ -152,7 +152,15 @@ document.addEventListener('DOMContentLoaded', function() {
                     @endforeach
                 </select>
             </div>
-
+<div class="form-group">
+    <label>Trimestre</label>
+    <select name="trimestre" required>
+        <option value="">— Elegir —</option>
+        @foreach($trimestres as $trimestre)
+            <option value="{{ $trimestre }}" @selected(old('trimestre')==$trimestre)>{{ $trimestre }}</option>
+        @endforeach
+    </select>
+</div>
             <div style="display:flex; justify-content: space-between; gap:10px;">
                 <a href="{{ route('reservas.index') }}" class="btn-secondary">Cancelar</a>
                 <button type="submit" class="btn-primary">Actualizar Reserva</button>

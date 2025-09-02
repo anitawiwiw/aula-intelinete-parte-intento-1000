@@ -15,6 +15,7 @@ return new class extends Migration {
             $table->time('hora_inicio');
             $table->time('hora_fin');
             $table->enum('tipo_origen', ['opcion1','opcion2'])->default('opcion1');
+            $table->enum('trimestre', ['1er trimestre', '2do trimestre', '3er trimestre']);
             $table->timestamps();
         });
     }
@@ -24,4 +25,3 @@ return new class extends Migration {
         Schema::dropIfExists('reservas');
     }
 };
-

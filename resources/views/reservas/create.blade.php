@@ -74,7 +74,15 @@
                     @endforeach
                 </select>
             </div>
-
+           <div class="form-group">
+    <label>Trimestre</label>
+    <select name="trimestre" required>
+        <option value="">— Elegir —</option>
+        @foreach($trimestres as $trimestre)
+            <option value="{{ $trimestre }}" @selected(old('trimestre')==$trimestre)>{{ $trimestre }}</option>
+        @endforeach
+    </select>
+</div>
             <div id="mensaje-reserva" style="color:red; font-weight:bold; margin:10px 0; white-space:pre-line;"></div>
 
             <div style="display:flex; justify-content: space-between; gap:10px;">
