@@ -3,7 +3,18 @@
 @section('content')
 <div class="top-bar flex justify-between px-6">
     <img src="{{ asset('images/logo.png') }}" alt="Logo" class="logo">
+    
+<nav>
     <span class="admin-text">Administrador</span>
+    <span class="separator">|</span>
+    
+    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: inline;">
+        @csrf
+        <a href="#" class="form-logout" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+            logout
+        </a>
+    </form>
+</nav>
 </div>
 
 <div class="main-container">
@@ -177,7 +188,37 @@
   --color-text-dark: #491c57;
   --color-text-light: #FDF9F5;
 }
+  nav {
+    margin-right: 2%;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-weight: 600;
+    font-size: 1.1rem;
+  }
+  
+ .form-logout {
+    font-family: 'Cinzel', serif;
+    font-size: 20px;
+    color: var(--color-text-light);
+    font-weight: bold;
+    text-decoration: none; /* opcional, para quitar subrayado */
+    cursor: pointer; /* para que parezca un enlace clickeable */
+        color: white;
+    text-decoration: none;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
 
+  nav a {
+    color: white;
+    text-decoration: none;
+    cursor: pointer;
+    transition: color 0.3s ease;
+  }
+  nav a:hover {
+    color: var( --color-text-light);
+  }
 body {
   font-family: Arial, sans-serif;
   margin: 0; padding: 0;
