@@ -38,8 +38,8 @@
         $trimestres = $trimestres ?? ['1er trimestre','2do trimestre','3er trimestre'];
         $curso = $curso ?? $cursosDisponibles[0];
         $trimestre = $trimestre ?? $trimestres[0];
-           $gridManana = $gridManana ?? [];
-    $gridTarde  = $gridTarde ?? [];
+        $gridManana = $gridManana ?? [];
+        $gridTarde  = $gridTarde ?? [];
     @endphp
 
     <!-- Formulario de selección de curso y trimestre -->

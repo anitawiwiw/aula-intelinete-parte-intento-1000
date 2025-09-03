@@ -245,7 +245,7 @@ public function storeDeDocentes(Request $request)
     $this->actualizarDisponibilidad($reserva->aula_id, $reserva->dia, $reserva->hora_inicio, $reserva->hora_fin);
 
     // Redirigir al tablero de docentes
-    return redirect()->route('docentes.home_de_docentes')
+    return redirect()->route('home_de_docentes')
                      ->with('success', 'Reserva creada correctamente.');
 }
 

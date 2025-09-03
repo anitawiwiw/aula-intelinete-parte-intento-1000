@@ -57,7 +57,7 @@ return redirect()->route('welcome')->with('success', 'Registro exitoso. Ahora in
         if ($user->role === 'administrador') {
     return redirect()->route('home_de_admins');
 } else {
-    return redirect()->route('home_de_docentes');
+    return redirect()->route('docentes.home_de_docentes');
 }
 
 

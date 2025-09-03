@@ -26,18 +26,27 @@ Route::get('/home_de_admins', function () {
 // Rutas docentes
 Route::get('docentes/home', function () {
     return view('docentes.home_de_docentes');
+})->name('home_de_docentes');
+
+// Alias para compatibilidad con código viejo
+Route::get('docentes/home', function () {
+    return view('docentes.home_de_docentes');
 })->name('docentes.home_de_docentes');
+// <- este es el nombre correcto
+
+ // 👈 sin el prefijo "docentes."
 
 // ⚠️ Crea este archivo: resources/views/docentes/home_de_docentes.blade.php
 // aunque sea vacío, así no rompe.
 Route::get('materias/create_de_profes', [MateriaController::class, 'createDeProfes'])->name('materias.create_de_profes');
 Route::post('materias/store_de_profes', [MateriaController::class, 'storeDeProfes'])->name('materias.store_de_profes');
 // Mostrar el formulario de creación de reservas para docentes
-Route::get('/reservas/create-de-docentes', [ReservaController::class, 'createDeDocentes'])
+Route::get('/reservas/create_de_docentes', [ReservaController::class, 'createDeDocentes'])
     ->name('reservas.create_de_docentes');
 
+
 // Guardar la reserva creada por un docente
-Route::post('/reservas/store-de-docentes', [ReservaController::class, 'storeDeDocentes'])
+Route::post('/reservas/store_de_docentes', [ReservaController::class, 'storeDeDocentes'])
     ->name('reservas.store_de_docentes');
 
 // Opcional: ruta al home de docentes (si no existe aún)
