@@ -168,6 +168,7 @@
 </div>
 
 <style>
+
 :root {
   --color-primary: #6d3a7c;
   --color-secondary: #a87cb0;
@@ -193,11 +194,9 @@ body {
     width: 100%;
     height: 60px;
     background: linear-gradient(90deg, var(--color-secondary), var(--color-primary));
-    /* -- Cambios aquí -- */
-    display: flex; /* 1. Habilita Flexbox */
-    justify-content: space-between; /* 2. Separa los elementos (logo a la izq, admin a la der) */
-    padding: 0 2rem; /* 3. (Opcional) Añade un poco de espacio en los bordes */
-    /* -- Fin de los cambios -- */
+    display: flex; 
+    justify-content: space-between; 
+    padding: 0 2rem; 
     align-items: center;
     z-index: 1000;
 }
@@ -210,6 +209,7 @@ body {
     color: var(--color-text-light);
     font-weight: bold;
 }
+
 /* Sidebar */
 .sidebar {
   position: fixed;
@@ -268,7 +268,7 @@ body {
   margin-bottom: 40px;
   padding: 10px 20px;
   border-radius: 12px;
-  background-color: rgba(255, 255, 255, 0.6);
+  background-color: var(--color-background-main);
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
@@ -295,68 +295,70 @@ body {
   text-shadow: 1px 1px 6px rgba(0,0,0,0.4);
 }
 
-        .selection-panel {
-            background-color: white;
-            padding: 1.5rem 2rem;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-            display: flex;
-            flex-wrap: wrap; /* Para que se ajuste en pantallas pequeñas */
-            gap: 1.5rem;
-            align-items: center;
-            margin-bottom: 2rem;
-        }
+.selection-panel {
+    background-color: var(--color-background-main);
+    padding: 1.5rem 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    display: flex;
+    flex-wrap: wrap; 
+    gap: 1.5rem;
+    align-items: center;
+    margin-bottom: 2rem;
+}
 
-        .selection-panel h3 {
-            font-size: 1.25rem;
-            font-weight: 600;
-            color: #333;
-            margin-right: 1rem;
-            flex-shrink: 0;
-        }
+.selection-panel h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--color-text-dark);
+    margin-right: 1rem;
+    flex-shrink: 0;
+}
 
-        .form-group {
-            display: flex;
-            flex-direction: column;
-        }
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
 
-        .form-group label {
-            font-size: 0.875rem;
-            font-weight: 500;
-            color: #555;
-            margin-bottom: 0.5rem;
-        }
-        
-        /* Estilo personalizado para los selectores */
-        .custom-select {
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            appearance: none;
-            background-color: #F3F4F6;
-            border: 1px solid #D1D5DB;
-            border-radius: 8px;
-            padding: 0.75rem 2.5rem 0.75rem 1rem;
-            font-size: 1rem;
-            color: #1F2937;
-            cursor: pointer;
-            min-width: 200px;
-            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236B7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
-            background-position: right 0.75rem center;
-            background-repeat: no-repeat;
-            background-size: 1.5em 1.5em;
-            transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-        }
+.form-group label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-text-dark);
+    margin-bottom: 0.5rem;
+}
+h1, h2, h3, h4, h5 {
+    color: var(--color-text-dark);
+}
+/* Estilo personalizado para los selectores */
+.custom-select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-color: var(--color-background-main);
+    border: 1px solid var(--color-text-dark);
+    border-radius: 8px;
+    padding: 0.75rem 2.5rem 0.75rem 1rem;
+    font-size: 1rem;
+    color: var(--color-text-dark);
+    cursor: pointer;
+    min-width: 200px;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236B7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+    background-position: right 0.75rem center;
+    background-repeat: no-repeat;
+    background-size: 1.5em 1.5em;
+    transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
 
-        .custom-select:hover {
-            border-color: #9CA3AF;
-        }
+.custom-select:hover {
+    border-color: var(--color-secondary);
+}
 
-        .custom-select:focus {
-            outline: none;
-            border-color: #60A5FA;
-            box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.3);
-        }
-        
+.custom-select:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(109,58,124,0.3);
+}
+
         /* Estilos para la tabla de horarios */
         .horario-table {
 
@@ -408,44 +410,43 @@ body {
         }
 
         /* Celda del Módulo/Hora */
-        .modulo-cell {
-    background-color: #F8F9FA;
+/* Celda del Módulo/Hora */
+.modulo-cell {
+    background-color: var(--color-background-sidebar);
     font-weight: 600;
-    color: #4B5563;
-    font-size: 0.85rem; /* Fuente más pequeña */
-    padding: 0.5rem 0.25rem; /* Padding más compacto */
+    color: var(--color-secondary);
+    font-size: 0.85rem;
+    padding: 0.5rem 0.25rem;
 }
-        
-        /* Contenedor de la clase para controlar padding y estilos */
-        .clase-block {
-    padding: 0.5rem 0.25rem; /* Menos espacio interno */
-    min-height: 40px; /* Altura mínima reducida */
+
+/* Contenedor de la clase para controlar padding y estilos */
+.clase-block {
+    padding: 0.5rem 0.25rem;
+    min-height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 0.85rem; /* Texto un poco más pequeño */
+    font-size: 0.85rem;
 }
 
 /* Contenedor principal central de toda la vista */
 .main-container {
-    width: 80%; /* Ahora ocupa el 80% del ancho de la ventana (antes 60%) */
-    max-width: 1600px; /* Limita el ancho máximo para pantallas muy grandes */
-    margin: 0 auto; /* Centrado horizontal */
-    padding: 2rem 3rem; /* Espaciado interno */
-    overflow-y: auto; /* Scroll vertical si el contenido excede la altura */
-    flex-grow: 1; /* Permite que el contenedor crezca para ocupar el espacio disponible */
+    width: 80%;
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 2rem 3rem;
+    overflow-y: auto;
+    flex-grow: 1;
 }
-
-/* Resto de estilos para tablas y selección se mantienen igual */
 
 /* Fila de Recreo */
 .recreo-row {
-    background-color: #FEF9C3; /* Amarillo pastel */
+    background-color: var(--color-secondary);
 }
 
 .recreo-row td {
     padding: 0.75rem;
     font-weight: 500;
-    color: #713F12;
+    color: var(--color-text-light);
     font-size: 0.9em;
 }
