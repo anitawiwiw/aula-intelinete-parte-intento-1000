@@ -64,7 +64,7 @@ class HorarioController extends Controller
         $gridManana = $this->construirGrillaCompleta($horarios, $reservas, 'manana');
         $gridTarde  = $this->construirGrillaCompleta($horarios, $reservas, 'tarde');
 
-        return view('horarios.index', compact(
+        return view('admins.home_de_admins', compact(
             'cursosDisponibles', 'trimestres',
             'curso', 'trimestre',
             'gridManana', 'gridTarde'
