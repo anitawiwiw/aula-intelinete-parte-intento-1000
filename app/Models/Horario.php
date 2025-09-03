@@ -2,13 +2,26 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+
 class Horario extends Model
 {
-    protected $fillable = ['dia', 'hora_inicio', 'hora_fin', 'turno', 'necesita_reserva'];
-    
-    public function reservas()
+    use HasFactory;
+
+    protected $fillable = [
+        'anio',
+        'division',
+        'trimestre',
+        'turno',
+        'dia',
+        'hora_inicio',
+        'hora_fin',
+        'materia_id',
+    ];
+
+    public function materia()
     {
-        return $this->hasMany(Reserva::class);
+        return $this->belongsTo(Materia::class);
     }
 }

@@ -1,50 +1,105 @@
+
 @extends('layouts.app')
-
-@section('title', 'Seleccionar Curso - Horarios')
-
 @section('content')
-<div class="container py-4">
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <div class="card shadow">
-                <div class="card-header bg-primary text-white">
-                    <h5 class="mb-0">Seleccionar Curso</h5>
-                </div>
-                <div class="card-body">
-                    <form action="{{ route('horarios.select') }}" method="GET">
-                        <div class="mb-3">
-                            <label for="curso" class="form-label">Seleccione el curso:</label>
-                            <select class="form-select form-select-lg" id="curso" name="curso" required>
-                                <option value="">-- Seleccione --</option>
-                                <optgroup label="1er Año">
-                                    <option value="1A">1° A</option>
-                                    <option value="1B">1° B</option>
-                                    <option value="1C">1° C</option>
-                                </optgroup>
-                                <optgroup label="2do Año">
-                                    <option value="2A">2° A</option>
-                                    <option value="2B">2° B</option>
-                                    <option value="2C">2° C</option>
-                                </optgroup>
-                                <optgroup label="3er Año">
-                                    <option value="3A">3° A</option>
-                                    <option value="3B">3° B</option>
-                                    <option value="3C">3° C</option>
-                                </optgroup>
-                                <optgroup label="4to Año">
-                                    <option value="4A">4° A</option>
-                                    <option value="4B">4° B</option>
-                                </optgroup>
-                                <optgroup label="5to Año">
-                                    <option value="5A">5° A</option>
-                                </optgroup>
-                            </select>
-                        </div>
-                        <button type="submit" class="btn btn-primary btn-lg w-100">Ver Horario</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
+<div class="container">
+<h3>Seleccionar Curso y Trimestre</h3>
+<form action="{{ route('horarios.index') }}" method="GET" class="mb-4">
+<div class="form-group mb-2">
+<label for="curso">Curso:</label>
+<select name="curso" id="curso" class="form-control" onchange="this.form.submit()">
+@foreach($cursosDisponibles as $c)
+<option value="{{ $c }}" {{ ($curso == $c) ? 'selected' : '' }}>{{ $c }}</option>
+@endforeach
+</select>
+</div>
+<div class="form-group mb-2">
+<label for="trimestre">Trimestre:</label>
+<select name="trimestre" id="trimestre" class="form-control" onchange="this.form.submit()">
+@foreach($trimestres as $t)
+<option value="{{ $t }}" {{ ($trimestre == $t) ? 'selected' : '' }}>{{ $t }}</option>
+@endforeach
+</select>
+</div>
+<noscript><button class="btn btn-primary" type="submit">Ver Horarios</button></noscript>
+</form>
+
+<hr>
+
+<h3>Horario del curso {{ $curso }} - {{ $trimestre }}</h3>
+
+<h4>Turno Mañana</h4>
+<div style="overflow-x:auto;">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Módulo</th>
+                <th>Lunes</th>
+                <th>Martes</th>
+                <th>Miércoles</th>
+                <th>Jueves</th>
+                <th>Viernes</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach([1, 2, 3, 4, 5, 6, 7, 8] as $mod)
+                <tr>
+                    <td>{{ $mod }}</td>
+                    @for($d=1;$d<=5;$d++)
+                        <td>
+                            @if(!empty($gridManana[$mod][$d]))
+                                @foreach($gridManana[$mod][$d] as $cell)
+                                    <div style="padding:4px; margin-bottom:3px; border-radius:4px; background: {{ $cell['color'] ?? '#eee' }};">
+                                        {{ $cell['nombre'] }}
+                                    </div>
+                                @endforeach
+                            @else
+                                &nbsp;
+                            @endif
+                        </td>
+                    @endfor
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
+</div>
+
+<hr>
+
+<h4>Turno Tarde</h4>
+<div style="overflow-x:auto;">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Módulo</th>
+                <th>Lunes</th>
+                <th>Martes</th>
+                <th>Miércoles</th>
+                <th>Jueves</th>
+                <th>Viernes</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach([1, 2, 3, 4, 5, 6, 7, 8] as $mod)
+                <tr>
+                    <td>{{ $mod }}</td>
+                    @for($d=1;$d<=5;$d++)
+                        <td>
+                            @if(!empty($gridTarde[$mod][$d]))
+                                @foreach($gridTarde[$mod][$d] as $cell)
+                                    <div style="padding:4px; margin-bottom:3px; border-radius:4px; background: {{ $cell['color'] ?? '#eee' }};">
+                                        {{ $cell['nombre'] }}
+                                    </div>
+                                @endforeach
+                            @else
+                                &nbsp;
+                            @endif
+                        </td>
+                    @endfor
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
+</div>
+
 </div>
 @endsection
