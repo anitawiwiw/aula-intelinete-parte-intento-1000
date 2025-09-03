@@ -212,4 +212,41 @@ class ReservaController extends Controller
             'proximo_dia'  => $proximo_dia,
         ]);
     }
+    // Mostrar el formulario de creación de reservas para docentes
+public function createDeDocentes()
+{
+    $aulas = Aula::orderBy('nombre')->get();
+    $materias = Materia::orderBy('nombre')->get();
+    $dias = ['lunes','martes','miercoles','jueves','viernes'];
+    $tipos = ['opcion1' => 'Opción 1', 'opcion2' => 'Opción 2'];
+    $trimestres = ['1er trimestre', '2do trimestre', '3er trimestre'];
+
+    return view('reservas.create_de_docentes', compact('aulas','materias','dias','tipos','trimestres'));
+}
+
+// Guardar la reserva creada por un docente y redirigir al home de docentes
+public function storeDeDocentes(Request $request)
+{
+    // Validar los datos usando la misma lógica que en store()
+    $data = $request->validate([
+        'aula_id'     => ['required','exists:aulas,id'],
+        'materia_id'  => ['required','exists:materias,id'],
+        'dia'         => ['required','in:lunes,martes,miercoles,jueves,viernes'],
+        'hora_inicio' => ['required','date_format:H:i'],
+        'hora_fin'    => ['required','date_format:H:i','after:hora_inicio'],
+        'tipo_origen' => ['required','in:opcion1,opcion2'],
+        'trimestre'   => ['required','in:1er trimestre,2do trimestre,3er trimestre'],
+    ]);
+
+    $data['user_id'] = auth()->id() ?? null; // docente logueado
+    $reserva = Reserva::create($data);
+
+    // Actualizar disponibilidad como en store()
+    $this->actualizarDisponibilidad($reserva->aula_id, $reserva->dia, $reserva->hora_inicio, $reserva->hora_fin);
+
+    // Redirigir al tablero de docentes
+    return redirect()->route('docentes.home_de_docentes')
+                     ->with('success', 'Reserva creada correctamente.');
+}
+
 }

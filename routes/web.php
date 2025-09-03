@@ -10,6 +10,10 @@ use App\Http\Controllers\MateriaController;
 use App\Http\Controllers\HorarioController;
 
 
+// Para docentes
+Route::get('horarios/profes', [HorarioController::class, 'indexDeProfes'])
+    ->name('horarios.index_de_profes');
+
 Route::get('/', function () {
     return view('welcome');  // Página inicial con login/registro
 })->name('welcome');
@@ -19,12 +23,24 @@ Route::get('/home_de_admins', function () {
     return view('admins.home_de_admins');
 })->name('home_de_admins');
 
-Route::get('/home_de_docentes', function () {
+// Rutas docentes
+Route::get('docentes/home', function () {
     return view('docentes.home_de_docentes');
-})->name('home_de_docentes'); 
+})->name('docentes.home_de_docentes');
+
 // ⚠️ Crea este archivo: resources/views/docentes/home_de_docentes.blade.php
 // aunque sea vacío, así no rompe.
+Route::get('materias/create_de_profes', [MateriaController::class, 'createDeProfes'])->name('materias.create_de_profes');
+Route::post('materias/store_de_profes', [MateriaController::class, 'storeDeProfes'])->name('materias.store_de_profes');
+// Mostrar el formulario de creación de reservas para docentes
+Route::get('/reservas/create-de-docentes', [ReservaController::class, 'createDeDocentes'])
+    ->name('reservas.create_de_docentes');
 
+// Guardar la reserva creada por un docente
+Route::post('/reservas/store-de-docentes', [ReservaController::class, 'storeDeDocentes'])
+    ->name('reservas.store_de_docentes');
+
+// Opcional: ruta al home de docentes (si no existe aún)
 // ================== REGISTRO ==================
 Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register.form');
 Route::post('/register', [AuthController::class, 'register'])->name('register');

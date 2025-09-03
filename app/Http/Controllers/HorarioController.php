@@ -184,4 +184,41 @@ class HorarioController extends Controller
     {
         return Str::lower(Str::ascii($s));
     }
+    // =======================
+// VERSIÓN PARA DOCENTES
+// =======================
+public function indexDeProfes(Request $request)
+{
+    // Cursos y trimestres disponibles para el formulario
+    $cursosDisponibles = ['1A','1B','1C','2A','2B','2C','3A','3B','3C','4A','4B','5A'];
+    $trimestres = ['1er trimestre','2do trimestre','3er trimestre'];
+    
+    // Valores por defecto
+    $curso = $request->input('curso') ?? $cursosDisponibles[0];
+    $trimestre = $request->input('trimestre') ?? $trimestres[0];
+
+    $anio_division = $curso;
+
+    $gridManana = $this->inicializarGrillaVacia();
+    $gridTarde = $this->inicializarGrillaVacia();
+
+    $materiaIds = Materia::where('año', $anio_division)->pluck('id');
+
+    $reservas = Reserva::with('materia')
+        ->whereIn('materia_id', $materiaIds)
+        ->where('trimestre', $trimestre)
+        ->get();
+
+    $horarios = Horario::all();
+
+    $gridManana = $this->construirGrillaCompleta($horarios, $reservas, 'manana');
+    $gridTarde  = $this->construirGrillaCompleta($horarios, $reservas, 'tarde');
+
+    return view('docentes.home_de_docentes', compact(
+        'cursosDisponibles', 'trimestres',
+        'curso', 'trimestre',
+        'gridManana', 'gridTarde'
+    ));
+}
+
 }

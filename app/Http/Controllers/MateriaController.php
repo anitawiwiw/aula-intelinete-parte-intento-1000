@@ -64,5 +64,29 @@ public function destroy(Materia $materia)
     $materia->delete();
     return redirect()->route('materias.index')->with('success', 'Materia eliminada correctamente.');
 }
+public function createDeProfes()
+{
+    $docentes = Docente::all();
+    return view('materias.create_de_profes', compact('docentes'));
+}
+
+public function storeDeProfes(Request $request)
+{
+    $data = $request->validate([
+        'nombre' => 'required|string|max:255',
+        'carrera' => 'required|in:Opcion 1,Opcion 2',
+        'año' => 'required|in:1A,1B,1C,2A,2B,2C,3A,3B,3C,4A,4B,5A',
+        'tipo_cursada' => 'required|in:basica,especializada',
+        'docentes' => 'array',
+        'docentes.*' => 'exists:docentes,id',
+    ]);
+
+    $materia = Materia::create($data);
+    $materia->docentes()->sync($request->docentes ?? []);
+
+    return redirect()->route('docentes.home_de_docentes')
+        ->with('success', 'Materia creada correctamente.');
+}
+
 }
 
