@@ -20,31 +20,28 @@
       display: flex; flex-direction: column;
       height: 100vh;
     }
-    .top-bar {
-   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 50px;
-  background-color: var(--color-secondary);
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  padding: 0 20px;
-  z-index: 1000;
+.top-bar {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%;
+    height: 60px;
+    background: linear-gradient(90deg, var(--color-secondary), var(--color-primary));
+    /* -- Cambios aquí -- */
+    display: flex; /* 1. Habilita Flexbox */
+    justify-content: space-between; /* 2. Separa los elementos (logo a la izq, admin a la der) */
+    padding: 0 2rem; /* 3. (Opcional) Añade un poco de espacio en los bordes */
+    /* -- Fin de los cambios -- */
+    align-items: center;
+    z-index: 1000;
 }
+
+.top-bar .logo { height: 170px; }
 .top-bar a {
   color: var(--color-text-light);
   text-decoration: none;
-  font-weight: bold; margin-left: 15px;
+  font-weight: bold; margin-left: 70%;
 }
-.top-bar .logo {
-  position: absolute;
-  left: 55px;
-  top: 50%;
-  transform: translateY(-50%);
-  height: 250%; /* ajusta según tu preferencia */
-}
+
 .main-container { display: flex; }
 .sidebar {
   position: fixed;
