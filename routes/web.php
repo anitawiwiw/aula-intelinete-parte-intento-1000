@@ -9,7 +9,8 @@ use App\Http\Controllers\RegistroDocenteController;
 use App\Http\Controllers\MateriaController;
 use App\Http\Controllers\HorarioController;
 
-
+use App\Http\Controllers\AireController;
+use App\Http\Controllers\HistorialAireController;
 // Para docentes
 Route::get('horarios/profes', [HorarioController::class, 'indexDeProfes'])
     ->name('horarios.index_de_profes');
@@ -58,8 +59,13 @@ Route::get('/docentes/create', [RegistroDocenteController::class, 'create'])->na
 Route::post('/docentes', [RegistroDocenteController::class, 'store'])->name('docentes.store');
 // Rutas para horarios
 // Mostrar selector de curso
+Route::resource('aires', AireController::class)->except(['show']);
 
+// Historial
+Route::get('historial-aires', [HistorialAireController::class, 'index'])->name('historial_aires.index');
 
+// Ruta para recibir datos de ESP32 (POST)
+Route::post('sensor/aire', [HistorialAireController::class, 'storeFromSensor'])->name('sensor.aire');
 Route::get('/horarios', [HorarioController::class, 'index'])->name('horarios.index');
 Route::post('/horarios', [HorarioController::class, 'seleccionar'])->name('horarios.seleccionar');
 

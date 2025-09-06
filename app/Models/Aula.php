@@ -18,5 +18,6 @@ class Aula extends Model
     {
         return $this->hasMany(Reserva::class);
     }
+    
 }
 
