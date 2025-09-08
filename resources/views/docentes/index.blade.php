@@ -14,6 +14,7 @@
     <a href="{{ route('docentes.index') }}" class="sidebar-button">Docentes</a>
     <a href="{{ route('materias.index') }}" class="sidebar-button">Materias</a>
     <a href="{{ route('reservas.index') }}" class="sidebar-button">Reservas</a>
+    <a href="{{ route('aires.index') }}" class="sidebar-button">Aires Acondicionados</a>
     <div class="sidebar-button"></div>
   </div>
 
