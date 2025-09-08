@@ -65,8 +65,10 @@
                             @endif
                         </td>
                         <td>
-                            <a href="{{ route('historial_aires.index', ['aire_id' => $aire->id]) }}" class="historial-button">Historial</a>
-                        </td>
+                            <a href="{{ route('historial-aires.by-aire', $aire->id) }}" class="btn btn-info btn-sm">
+    Historial
+</a>
+</td>
                         <td>
                             <a href="{{ route('aires.edit', $aire) }}" class="edit-button">Editar</a>
                             <form action="{{ route('aires.destroy', $aire) }}" method="POST" style="display:inline-block;" onsubmit="return confirm('¿Eliminar este aire?');">

@@ -61,9 +61,8 @@ Route::post('/docentes', [RegistroDocenteController::class, 'store'])->name('doc
 // Mostrar selector de curso
 Route::resource('aires', AireController::class)->except(['show']);
 
-// Historial
-Route::get('historial-aires', [HistorialAireController::class, 'index'])->name('historial_aires.index');
-
+Route::get('/aires/{aire}/historial', [HistorialAireController::class, 'showByAire'])
+    ->name('historial-aires.by-aire');
 // Ruta para recibir datos de ESP32 (POST)
 Route::post('sensor/aire', [HistorialAireController::class, 'storeFromSensor'])->name('sensor.aire');
 Route::get('/horarios', [HorarioController::class, 'index'])->name('horarios.index');

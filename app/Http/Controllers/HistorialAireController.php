@@ -32,4 +32,20 @@ class HistorialAireController extends Controller
 
         return response()->json(['ok' => true, 'id' => $hist->id], 201);
     }
+    public function showByAire($aire_id)
+{
+    $aire = Aire::find($aire_id);
+
+    if (!$aire) {
+        return redirect()->route('aires.index')
+                         ->with('error', 'El aire solicitado no existe.');
+    }
+
+    $historiales = HistorialAire::where('aire_id', $aire_id)
+                                ->latest()
+                                ->paginate(20);
+
+    return view('historial_aires.by_aire', compact('aire', 'historiales'));
+}
+
 }
