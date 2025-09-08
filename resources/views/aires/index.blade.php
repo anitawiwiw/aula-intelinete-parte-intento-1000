@@ -46,6 +46,7 @@
                         <th>Estado</th>
                         <th>Últ. Mant.</th>
                         <th>Última lectura</th>
+                        <th>Historial</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
@@ -62,6 +63,9 @@
                             @if($aire->ultimoHistorial)
                                 {{ $aire->ultimoHistorial->fecha }} - {{ $aire->ultimoHistorial->temperatura }}°C
                             @endif
+                        </td>
+                        <td>
+                            <a href="{{ route('historial_aires.index', ['aire_id' => $aire->id]) }}" class="historial-button">Historial</a>
                         </td>
                         <td>
                             <a href="{{ route('aires.edit', $aire) }}" class="edit-button">Editar</a>
@@ -113,18 +117,21 @@ body {
     width: 100%;
     height: 60px;
     background: linear-gradient(90deg, var(--color-secondary), var(--color-primary));
-    display: flex;
-    justify-content: space-between;
-    padding: 0 2rem;
+    /* -- Cambios aquí -- */
+    display: flex; /* 1. Habilita Flexbox */
+    justify-content: space-between; /* 2. Separa los elementos (logo a la izq, admin a la der) */
+    padding: 0 2rem; /* 3. (Opcional) Añade un poco de espacio en los bordes */
+    /* -- Fin de los cambios -- */
     align-items: center;
     z-index: 1000;
 }
 
 .top-bar .logo { height: 170px; }
 .top-bar a {
-    color: var(--color-text-light);
-    text-decoration: none;
-    font-weight: bold;
+  color: var(--color-text-light);
+  text-decoration: none;
+  font-weight: bold; 
+  margin-left: 70%;
 }
 
 .main-container { display: flex; }
@@ -201,6 +208,17 @@ tr:nth-child(even) { background-color: #f9f9f9; }
     text-decoration: none;
 }
 .edit-button:hover { background-color: #2779bd; }
+.historial-button {
+    background-color: #ffc107;
+    color: #212529;
+    padding: 6px 12px;
+    border-radius: 5px;
+    text-decoration: none;
+    margin-right: 8px;
+}
+.historial-button:hover {
+    background-color: #e0a800;
+}
 .delete-button {
     background-color: #e3342f; color: white;
     padding: 6px 12px; border: none;
