@@ -65,9 +65,7 @@
                             @endif
                         </td>
                         <td>
-                            <a href="{{ route('historial-aires.by-aire', $aire->id) }}" class="btn btn-info btn-sm">
-    Historial
-</a>
+                            <a href="{{ route('historial-aires.by-aire', $aire->id) }}" class="historial-button">Historial</a>
 </td>
                         <td>
                             <a href="{{ route('aires.edit', $aire) }}" class="edit-button">Editar</a>
@@ -211,7 +209,7 @@ tr:nth-child(even) { background-color: #f9f9f9; }
 }
 .edit-button:hover { background-color: #2779bd; }
 .historial-button {
-    background-color: #ffc107;
+    background-color: #ffd75fff;
     color: #212529;
     padding: 6px 12px;
     border-radius: 5px;
@@ -219,7 +217,7 @@ tr:nth-child(even) { background-color: #f9f9f9; }
     margin-right: 8px;
 }
 .historial-button:hover {
-    background-color: #e0a800;
+    background-color: #ffd75fff;
 }
 .delete-button {
     background-color: #e3342f; color: white;
