@@ -8,9 +8,11 @@ use App\Http\Controllers\AulaController;
 use App\Http\Controllers\RegistroDocenteController;
 use App\Http\Controllers\MateriaController;
 use App\Http\Controllers\HorarioController;
-
+use App\Http\Controllers\SensorController;
 use App\Http\Controllers\AireController;
 use App\Http\Controllers\HistorialAireController;
+use App\Http\Controllers\FocoController;
+use App\Http\Controllers\HistorialFocoController;
 // Para docentes
 Route::get('horarios/profes', [HorarioController::class, 'indexDeProfes'])
     ->name('horarios.index_de_profes');
@@ -36,7 +38,9 @@ Route::get('docentes/home', function () {
 // <- este es el nombre correcto
 
  // 👈 sin el prefijo "docentes."
-
+Route::get('/sensores', function() {
+    return "Ruta /sensores funcionando";
+});
 // ⚠️ Crea este archivo: resources/views/docentes/home_de_docentes.blade.php
 // aunque sea vacío, así no rompe.
 Route::get('materias/create_de_profes', [MateriaController::class, 'createDeProfes'])->name('materias.create_de_profes');
@@ -65,6 +69,18 @@ Route::get('/aires/{aire}/historial', [HistorialAireController::class, 'showByAi
     ->name('historial-aires.by-aire');
 // Ruta para recibir datos de ESP32 (POST)
 Route::post('sensor/aire', [HistorialAireController::class, 'storeFromSensor'])->name('sensor.aire');
+
+// ---------- Focos ----------
+Route::resource('focos', FocoController::class);
+
+Route::get('historial-focos', [HistorialFocoController::class, 'index'])->name('historial_focos.index');
+Route::get('historial-focos/{foco_id}', [HistorialFocoController::class, 'showByFoco'])->name('historial_focos.by_foco');
+
+// Ruta POST para la ESP32
+Route::post('sensor/foco', [HistorialFocoController::class, 'storeFromSensor']);
+// Historial de focos
+Route::get('/historial-focos', [HistorialFocoController::class, 'index'])->name('historial_focos.index');
+Route::get('/historial-focos/{foco_id}', [HistorialFocoController::class, 'showByFoco'])->name('historial_focos.by_foco');
 Route::get('/horarios', [HorarioController::class, 'index'])->name('horarios.index');
 Route::post('/horarios', [HorarioController::class, 'seleccionar'])->name('horarios.seleccionar');
 

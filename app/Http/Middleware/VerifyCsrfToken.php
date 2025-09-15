@@ -11,7 +11,10 @@ class VerifyCsrfToken extends Middleware
      *
      * @var array<int, string>
      */
+
     protected $except = [
-        'sensor/aire', // 👈 nuestra ruta para la ESP32
+         'sensor/aire',   // ruta POST desde ESP32 aire
+         'sensor/foco',   // ruta POST desde ESP32 foco
+         'sensores' // 👈 nuestra ruta para la ESP32
     ];
 }
