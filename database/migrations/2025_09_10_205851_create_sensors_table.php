@@ -12,18 +12,19 @@ return new class extends Migration
 public function up()
 {
 Schema::create('sensors', function (Blueprint $table) {
-    $table->id();
-    $table->string('tipo');
-    $table->float('valor');
-    $table->timestamps();
+ $table->id();
+ $table->string('tipo');
+ $table->float('valor');
+ $table->timestamps();
 });
+
 
 }
 
     /**
      * Reverse the migrations.
      */
-    public function down(): void
+    public function down()
     {
         Schema::dropIfExists('sensors');
     }

@@ -195,6 +195,7 @@
               <td>{{ $aula->capacidad }}</td>
               <td>
                 <a href="{{ route('aulas.edit', $aula->id) }}" class="edit-button">Editar</a>
+                <a href="{{ route('muebles.byAula', $aula->id) }}" class="historial-button">Muebles</a>
                 <form action="{{ route('aulas.destroy', $aula->id) }}" method="POST" style="display:inline-block;" onsubmit="return confirm('¿Seguro que deseas eliminar esta aula?');">
                   @csrf
                   @method('DELETE')

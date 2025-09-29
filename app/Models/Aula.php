@@ -18,6 +18,10 @@ class Aula extends Model
     {
         return $this->hasMany(Reserva::class);
     }
-    
+public function muebles()
+{
+    return $this->belongsToMany(Mueble::class, 'aula_mueble');
+}
+
 }
 

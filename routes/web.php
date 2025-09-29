@@ -13,6 +13,7 @@ use App\Http\Controllers\AireController;
 use App\Http\Controllers\HistorialAireController;
 use App\Http\Controllers\FocoController;
 use App\Http\Controllers\HistorialFocoController;
+use App\Http\Controllers\MuebleController;
 // Para docentes
 Route::get('horarios/profes', [HorarioController::class, 'indexDeProfes'])
     ->name('horarios.index_de_profes');
@@ -37,10 +38,7 @@ Route::get('docentes/home', function () {
 })->name('docentes.home_de_docentes');
 // <- este es el nombre correcto
 
- // 👈 sin el prefijo "docentes."
-Route::get('/sensores', function() {
-    return "Ruta /sensores funcionando";
-});
+Route::post('/sensores', [SensorController::class, 'store']);
 // ⚠️ Crea este archivo: resources/views/docentes/home_de_docentes.blade.php
 // aunque sea vacío, así no rompe.
 Route::get('materias/create_de_profes', [MateriaController::class, 'createDeProfes'])->name('materias.create_de_profes');
@@ -64,7 +62,11 @@ Route::post('/docentes', [RegistroDocenteController::class, 'store'])->name('doc
 // Rutas para horarios
 // Mostrar selector de curso
 Route::resource('aires', AireController::class)->except(['show']);
+Route::get('aulas/{aula}/muebles', [MuebleController::class, 'indexByAula'])->name('muebles.byAula');
+Route::get('aulas/{aula}/muebles/create', [MuebleController::class, 'createByAula'])->name('muebles.createByAula');
+Route::post('muebles', [MuebleController::class, 'store'])->name('muebles.store');
 
+Route::resource('muebles', MuebleController::class);
 Route::get('/aires/{aire}/historial', [HistorialAireController::class, 'showByAire'])
     ->name('historial-aires.by-aire');
 // Ruta para recibir datos de ESP32 (POST)
