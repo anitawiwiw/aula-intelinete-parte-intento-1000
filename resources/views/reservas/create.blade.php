@@ -11,7 +11,14 @@
 
         <form id="formReserva" action="{{ route('reservas.store') }}" method="POST">
             @csrf
+<div class="form-wrapper">
+    <div class="form-container">
+        <h1>Crear Reserva</h1>
 
+        <form id="formReserva" action="{{ route('reservas.store') }}" method="POST">
+            @csrf
+
+            {{-- Aula --}}
             <div class="form-group">
                 <label>Aula</label>
                 <select name="aula_id" required>
@@ -24,6 +31,7 @@
                 </select>
             </div>
 
+            {{-- Materia --}}
             <div class="form-group">
                 <label>Materia</label>
                 <select name="materia_id" required>
@@ -34,38 +42,7 @@
                 </select>
             </div>
 
-            <div class="form-group">
-                <label>Día</label>
-                <select name="dia" required>
-                    @foreach($dias as $d)
-                        <option value="{{ $d }}" @selected(old('dia')==$d)>{{ ucfirst($d) }}</option>
-                    @endforeach
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label>Turno</label>
-                <select id="turno" onchange="cargarHorarios()" required>
-                    <option value="">— Elegir turno —</option>
-                    <option value="maniana" @selected(old('turno', $reserva->turno ?? '')=='maniana')>Mañana</option>
-                    <option value="tarde" @selected(old('turno', $reserva->turno ?? '')=='tarde')>Tarde</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label>Hora inicio</label>
-                <select id="hora_inicio" name="hora_inicio" required>
-                    <option value="">— Elegir —</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label>Hora fin</label>
-                <select id="hora_fin" name="hora_fin" required>
-                    <option value="">— Elegir —</option>
-                </select>
-            </div>
-
+            {{-- Tipo origen --}}
             <div class="form-group">
                 <label>Tipo origen</label>
                 <select name="tipo_origen" required>
@@ -74,15 +51,24 @@
                     @endforeach
                 </select>
             </div>
-           <div class="form-group">
-    <label>Trimestre</label>
-    <select name="trimestre" required>
-        <option value="">— Elegir —</option>
-        @foreach($trimestres as $trimestre)
-            <option value="{{ $trimestre }}" @selected(old('trimestre')==$trimestre)>{{ $trimestre }}</option>
-        @endforeach
-    </select>
-</div>
+
+            {{-- Trimestre --}}
+            <div class="form-group">
+                <label>Trimestre</label>
+                <select name="trimestre" required>
+                    <option value="">— Elegir —</option>
+                    @foreach($trimestres as $trimestre)
+                        <option value="{{ $trimestre }}" @selected(old('trimestre')==$trimestre)>{{ $trimestre }}</option>
+                    @endforeach
+                </select>
+            </div>
+
+            {{-- Campos ocultos para módulo seleccionado --}}
+            <input type="hidden" name="dia" value="{{ request('dia') }}">
+            <input type="hidden" name="turno" value="{{ request('turno') }}">
+            <input type="hidden" name="hora_inicio" value="{{ request('hora_inicio') }}">
+            <input type="hidden" name="hora_fin" value="{{ request('hora_fin') }}">
+
             <div id="mensaje-reserva" style="color:red; font-weight:bold; margin:10px 0; white-space:pre-line;"></div>
 
             <div style="display:flex; justify-content: space-between; gap:10px;">

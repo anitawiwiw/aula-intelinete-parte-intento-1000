@@ -35,15 +35,17 @@ class ReservaController extends Controller
         return view('reservas.create', compact('aulas','materias','dias','tipos','trimestres'));
     }
 
-    public function store(Request $request)
-    {
-        $data = $this->validateData($request);
-        $data['user_id'] = auth()->id() ?? null; // si tenés login
-        $reserva = Reserva::create($data);
-        $this->actualizarDisponibilidad($reserva->aula_id, $reserva->dia, $reserva->hora_inicio, $reserva->hora_fin);
+  public function store(Request $request)
+{
+    $data = $this->validateData($request);
+    $data['user_id'] = auth()->id() ?? null; // si hay login
+    $reserva = Reserva::create($data);
+    $this->actualizarDisponibilidad($reserva->aula_id, $reserva->dia, $reserva->hora_inicio, $reserva->hora_fin);
 
-        return redirect()->route('reservas.index')->with('ok', 'Reserva creada.');
-    }
+    // Redirigir al home en lugar de index de reservas
+    return redirect()->route('home_de_admins')->with('ok', 'Reserva creada.');
+}
+
 
     public function edit(Reserva $reserva)
     {
@@ -62,7 +64,7 @@ class ReservaController extends Controller
         $reserva->update($data);
         $this->actualizarDisponibilidad($reserva->aula_id, $reserva->dia, $reserva->hora_inicio, $reserva->hora_fin);
 
-        return redirect()->route('reservas.index')->with('ok', 'Reserva actualizada.');
+        return redirect()->route('home_de_admins')->with('ok', 'Reserva actualizada.');
     }
 
     public function destroy(Reserva $reserva)

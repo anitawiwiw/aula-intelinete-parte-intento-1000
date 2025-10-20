@@ -98,6 +98,7 @@
                     5 => ['09:50','10:30'], 6 => ['10:30','11:05'], 'recreo3'=>['11:05','11:15'],
                     7 => ['11:15','11:55'], 8 => ['11:55','12:30']
                 ];
+                $dayNames = [1 => 'lunes', 2 => 'martes', 3 => 'miercoles', 4 => 'jueves', 5 => 'viernes'];
             @endphp
             @foreach(array_keys($slotsManana) as $mod)
                 @if(strpos($mod,'recreo')!==false)
@@ -107,19 +108,40 @@
                 @else
                     <tr>
                         <td class="modulo-cell">{{ $mod }}</td>
-                        @for($d=1;$d<=5;$d++)
-                            <td>
-                                @if(!empty($gridManana[$mod][$d]))
-                                    @foreach($gridManana[$mod][$d] as $cell)
-                                        <div class="clase-block" style="background: {{ $cell['color'] ?? '#e6f7ff' }};">
-                                            {{ $cell['nombre'] }}
-                                        </div>
-                                    @endforeach
-                                @else
-                                    <div class="clase-block" style="background:#f7f7f7;">&nbsp;</div>
-                                @endif
-                            </td>
-                        @endfor
+@for($d=1;$d<=5;$d++)
+    <td>
+        @if(!empty($gridManana[$mod][$d]))
+            @foreach($gridManana[$mod][$d] as $cell)
+                <div class="clase-block" style="background: {{ $cell['color'] ?? '#e6f7ff' }};">
+                    {{ $cell['nombre'] }}
+                </div>
+            @endforeach
+        @else
+            @php
+                $h0 = $slotsManana[$mod][0];
+                $h1 = $slotsManana[$mod][1];
+                $diaName = $dayNames[$d];
+                $query = http_build_query([
+                    'dia' => $diaName,
+                    'hora_inicio' => $h0,
+                    'hora_fin' => $h1,
+                    'trimestre' => $trimestre,
+                    'turno' => 'manana',
+                    'modulo' => $mod,
+                ]);
+            @endphp
+
+            <div class="clase-block libre" title="Libre: {{ $h0 }} - {{ $h1 }}">
+                <a href="{{ route('reservas.create') }}?{{ $query }}" 
+                   class="btn btn-sm btn-outline-primary reservar-btn"
+                   role="button">
+                    Reservar
+                </a>
+            </div>
+        @endif
+    </td>
+@endfor
+
                     </tr>
                 @endif
             @endforeach
@@ -150,6 +172,7 @@
                     5 => ['15:50','16:30'], 6 => ['16:30','17:05'], 'recreo3'=>['17:05','17:15'],
                     7 => ['17:15','17:55'], 8 => ['17:55','18:30']
                 ];
+                $dayNames = [1 => 'lunes', 2 => 'martes', 3 => 'miercoles', 4 => 'jueves', 5 => 'viernes'];
             @endphp
             @foreach(array_keys($slotsTarde) as $mod)
                 @if(strpos($mod,'recreo')!==false)
@@ -160,18 +183,39 @@
                     <tr>
                         <td class="modulo-cell">{{ $mod }}</td>
                         @for($d=1;$d<=5;$d++)
-                            <td>
-                                @if(!empty($gridTarde[$mod][$d]))
-                                    @foreach($gridTarde[$mod][$d] as $cell)
-                                        <div class="clase-block" style="background: {{ $cell['color'] ?? '#e6f7ff' }};">
-                                            {{ $cell['nombre'] }}
-                                        </div>
-                                    @endforeach
-                                @else
-                                    <div class="clase-block" style="background:#f7f7f7;">&nbsp;</div>
-                                @endif
-                            </td>
-                        @endfor
+    <td>
+        @if(!empty($gridTarde[$mod][$d]))
+            @foreach($gridTarde[$mod][$d] as $cell)
+                <div class="clase-block" style="background: {{ $cell['color'] ?? '#e6f7ff' }};">
+                    {{ $cell['nombre'] }}
+                </div>
+            @endforeach
+        @else
+            @php
+                $h0 = $slotsTarde[$mod][0];
+                $h1 = $slotsTarde[$mod][1];
+                $diaName = $dayNames[$d];
+                $query = http_build_query([
+                    'dia' => $diaName,
+                    'hora_inicio' => $h0,
+                    'hora_fin' => $h1,
+                    'trimestre' => $trimestre,
+                    'turno' => 'tarde',
+                    'modulo' => $mod,
+                ]);
+            @endphp
+
+            <div class="clase-block libre" title="Libre: {{ $h0 }} - {{ $h1 }}">
+                <a href="{{ route('reservas.create') }}?{{ $query }}" 
+                   class="btn btn-sm btn-outline-primary reservar-btn"
+                   role="button">
+                    Reservar
+                </a>
+            </div>
+        @endif
+    </td>
+@endfor
+
                     </tr>
                 @endif
             @endforeach
@@ -197,7 +241,15 @@
     font-weight: 600;
     font-size: 1.1rem;
   }
-  
+  .clase-block.libre { 
+    background: #ffffff; 
+    border: 1px dashed #ddd; 
+    cursor: pointer;
+}
+.clase-block.ocupado {
+    cursor: not-allowed;
+}
+
  .form-logout {
     font-family: 'Cinzel', serif;
     font-size: 20px;
