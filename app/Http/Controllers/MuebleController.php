@@ -1,7 +1,6 @@
 <?php
-// app/Http/Controllers/AuthController.php
-namespace App\Http\Controllers;
 
+namespace App\Http\Controllers;
 
 use App\Models\Mueble;
 use App\Models\Aula;
@@ -9,82 +8,93 @@ use Illuminate\Http\Request;
 
 class MuebleController extends Controller
 {
+    /**
+     * Mostrar todos los muebles de un aula específica.
+     */
+    public function indexByAula($aulaId)
+    {
+        $aula = Aula::with('muebles')->findOrFail($aulaId);
+        $muebles = $aula->muebles()->orderBy('nombre')->paginate(10);
 
+        return view('muebles.index_by_aula', compact('aula', 'muebles'));
+    }
 
-public function store(Request $request)
-{
-$data = $request->validate([
-    'nombre' => 'required|string|max:255',
-    'estado' => 'required|string|max:100',
-    'numero_inventario' => 'required|string|unique:muebles',
-    'aula_id' => 'nullable|exists:aulas,id',
-]);
+    /**
+     * Mostrar formulario de creación de un mueble dentro de un aula.
+     */
+    public function createByAula($aulaId)
+    {
+        $aula = Aula::findOrFail($aulaId);
+        return view('muebles.create_by_aula', compact('aula'));
+    }
 
-// Crear solo los campos de muebles
-$mueble = Mueble::create($data);
+    /**
+     * Guardar un nuevo mueble.
+     */
+    public function store(Request $request)
+    {
+        $data = $request->validate([
+            'nombre' => 'required|string|max:255',
+            'estado' => 'required|string|max:100',
+            'numero_inventario' => 'required|string|max:100',
+            'aula_id' => 'required|exists:aulas,id',
+        ]);
 
-if (!empty($data['aula_id'])) {
-    $mueble->aulas()->attach($data['aula_id']);
-}
+        Mueble::create($data);
 
+        return redirect()
+            ->route('muebles.byAula', $data['aula_id'])
+            ->with('success', '✅ Mueble creado correctamente.');
+    }
 
-    return redirect()->route('muebles.byAula', $data['aula_id'])
-        ->with('success', 'Mueble creado.');
-}
+    /**
+     * Mostrar un aula y sus muebles (vista detallada).
+     */
+    public function show($id)
+    {
+        $aula = Aula::with('muebles')->findOrFail($id);
+        return view('aulas.show', compact('aula'));
+    }
 
-public function show($id)
-{
-    $aula = Aula::with('muebles')->findOrFail($id);
-    return view('aulas.show', compact('aula'));
-}
-
-
+    /**
+     * Mostrar formulario de edición de un mueble.
+     */
     public function edit(Mueble $mueble)
     {
-        $aulas = Aula::all();
+        $aulas = Aula::orderBy('nombre')->get();
         return view('muebles.edit', compact('mueble', 'aulas'));
     }
 
-public function update(Request $request, Mueble $mueble)
-{
-$data = $request->validate([
-    'nombre' => 'required|string|max:255',
-    'estado' => 'required|string|max:100',
-    'numero_inventario' => 'required|string|unique:muebles',
-    'aula_id' => 'nullable|exists:aulas,id',
-]);
+    /**
+     * Actualizar datos del mueble.
+     */
+    public function update(Request $request, Mueble $mueble)
+    {
+        $data = $request->validate([
+            'nombre' => 'required|string|max:255',
+            'estado' => 'required|string|max:100',
+            'numero_inventario' => 'required|string|max:100',
+            'aula_id' => 'required|exists:aulas,id',
+        ]);
 
-    $mueble->update($data);
+        $mueble->update($data);
 
-    if (!empty($data['aula_id'])) {
-        $mueble->aulas()->sync([$data['aula_id']]);
+        return redirect()
+            ->route('muebles.byAula', $data['aula_id'])
+            ->with('success', '✅ Mueble actualizado correctamente.');
     }
 
-    return redirect()->route('muebles.index')->with('success', 'Mueble actualizado.');
-}
-
-
+    /**
+     * Eliminar un mueble.
+     */
     public function destroy(Mueble $mueble)
     {
+        $aulaId = $mueble->aula_id;
         $mueble->delete();
-        return redirect()->route('muebles.index')->with('success', 'Mueble eliminado.');
+
+        return redirect()
+            ->route('muebles.byAula', $aulaId)
+            ->with('success', '🗑️ Mueble eliminado correctamente.');
     }
-public function indexByAula($aulaId)
-{
-    $aula = Aula::with('muebles')->findOrFail($aulaId);
-    $muebles = $aula->muebles()->paginate(10);
-
-    return view('muebles.index_by_aula', compact('aula', 'muebles'));
 }
 
-
-
-public function createByAula($aulaId)
-{
-    $aula = Aula::findOrFail($aulaId);
-    return view('muebles.create_by_aula', compact('aula'));
-}
-
-
-
-}

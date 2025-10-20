@@ -11,21 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-Schema::create('muebles', function (Blueprint $table) {
-    $table->id();
-    $table->string('nombre');
-    $table->string('estado');
-    $table->string('numero_inventario')->unique();
-    $table->foreignId('aula_id')->constrained()->onDelete('cascade');
-    $table->timestamps();
-
-        });
-
-        // Tabla pivote aula_mueble
-        Schema::create('aula_mueble', function (Blueprint $table) {
+        Schema::create('muebles', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('aula_id')->constrained('aulas')->onDelete('cascade');
-            $table->foreignId('mueble_id')->constrained('muebles')->onDelete('cascade');
+            $table->string('nombre');
+            $table->string('estado', 100);
+            $table->string('numero_inventario', 100)->unique();
+            $table->foreignId('aula_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -35,7 +26,6 @@ Schema::create('muebles', function (Blueprint $table) {
      */
     public function down(): void
     {
-        Schema::dropIfExists('aula_mueble');
         Schema::dropIfExists('muebles');
     }
 };

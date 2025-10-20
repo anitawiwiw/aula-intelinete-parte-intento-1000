@@ -37,9 +37,10 @@
                 <select id="aula_id" name="aula_id">
                     <option value="">-- Sin asignar --</option>
                     @foreach($aulas as $aula)
-                        <option value="{{ $aula->id }}" {{ $mueble->aulas->contains($aula->id) ? 'selected' : '' }}>
-                            {{ $aula->nombre }}
-                        </option>
+                        <option value="{{ $aula->id }}" {{ $mueble->aula_id == $aula->id ? 'selected' : '' }}>
+    {{ $aula->nombre }}
+</option>
+
                     @endforeach
                 </select>
             </div>
