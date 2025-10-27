@@ -47,15 +47,10 @@ class HorarioController extends Controller
         $gridTarde = $this->inicializarGrillaVacia();
         
         // Obtener ids de materias para el año y división seleccionados
-        // Se asume que la tabla 'materias' tiene la columna 'año' con el valor '1A', '2B', etc.
-        $materiaIds = Materia::where('año', $anio_division)
-            ->pluck('id');
+$reservas = Reserva::with('materia')
+    ->where('trimestre', $trimestre)
+    ->get();
 
-        // Reservas filtradas por materia_id (año/division), trimestre y turno
-        $reservas = Reserva::with('materia')
-            ->whereIn('materia_id', $materiaIds)
-            ->where('trimestre', $trimestre)
-            ->get();
         
         // Horarios fijos, se asume que no tienen relación con el año
         $horarios = Horario::all();

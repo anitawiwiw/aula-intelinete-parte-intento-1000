@@ -23,6 +23,10 @@ class Aula extends Model
         return $this->hasMany(Mueble::class);
     }
 
+public function cortinas()
+{
+    return $this->hasMany(Cortina::class);
+}
 
 }
 

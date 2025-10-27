@@ -42,8 +42,13 @@ class ReservaController extends Controller
     $reserva = Reserva::create($data);
     $this->actualizarDisponibilidad($reserva->aula_id, $reserva->dia, $reserva->hora_inicio, $reserva->hora_fin);
 
-    // Redirigir al home en lugar de index de reservas
-    return redirect()->route('home_de_admins')->with('ok', 'Reserva creada.');
+return redirect()
+    ->route('horarios.index', [
+        'curso' => $request->input('curso', session('curso_actual')),
+        'trimestre' => $request->input('trimestre')
+    ])
+    ->with('ok', 'Reserva creada y horario actualizado.');
+
 }
 
 

@@ -139,6 +139,20 @@
       margin-left: 8px;
     }
     .delete-button:hover { background-color: #cc1f1a; }
+    .cortinas-button {
+      background-color: #f6ad55; color: white;
+      padding: 6px 12px; border-radius: 5px;
+      text-decoration: none;
+      margin-left: 8px;
+    }
+    .cortinas-button:hover { background-color: #ed8936; }
+    .historial-button {
+      background-color: #3dc138ff; color: white;
+      padding: 6px 12px; border-radius: 5px;
+      text-decoration: none;
+      margin-left: 8px;
+    }
+    .historial-button:hover { background-color: #2f9e5f; }
   </style>
 </head>
 <body>
@@ -196,6 +210,7 @@
               <td>
                 <a href="{{ route('aulas.edit', $aula->id) }}" class="edit-button">Editar</a>
                 <a href="{{ route('muebles.byAula', $aula->id) }}" class="historial-button">Muebles</a>
+                <a href="{{ route('cortinas.byAula', $aula->id) }}" class="cortinas-button">cortinas</a>
                 <form action="{{ route('aulas.destroy', $aula->id) }}" method="POST" style="display:inline-block;" onsubmit="return confirm('¿Seguro que deseas eliminar esta aula?');">
                   @csrf
                   @method('DELETE')

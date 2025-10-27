@@ -135,7 +135,7 @@
                 <a href="{{ route('reservas.create') }}?{{ $query }}" 
                    class="btn btn-sm btn-outline-primary reservar-btn"
                    role="button">
-                    Reservar
+                    +
                 </a>
             </div>
         @endif
@@ -209,7 +209,7 @@
                 <a href="{{ route('reservas.create') }}?{{ $query }}" 
                    class="btn btn-sm btn-outline-primary reservar-btn"
                    role="button">
-                    Reservar
+                    +
                 </a>
             </div>
         @endif
@@ -233,6 +233,27 @@
   --color-text-dark: #491c57;
   --color-text-light: #FDF9F5;
 }
+.reservar-btn {
+    display: inline-block;
+    background: none;
+    border: none;
+    color: #85aa3bff; /* verde oliva oscuro */
+    font-size: 1.6rem; /* tamaño del + */
+    font-weight: 700; /* más grueso */
+    cursor: pointer;
+    text-decoration: none; /* sin subrayado */
+    transition: transform 0.2s ease;
+}
+
+.reservar-btn:hover {
+    transform: scale(1.2); /* leve agrandamiento al pasar el mouse */
+}
+
+.reservar-btn:focus {
+    outline: none; /* elimina la línea de foco */
+    box-shadow: none;
+}
+
   nav {
     margin-right: 2%;
     display: flex;

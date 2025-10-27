@@ -65,6 +65,14 @@ Route::resource('aires', AireController::class)->except(['show']);
 Route::get('aulas/{aula}/muebles', [MuebleController::class, 'indexByAula'])->name('muebles.byAula');
 Route::get('aulas/{aula}/muebles/create', [MuebleController::class, 'createByAula'])->name('muebles.createByAula');
 Route::post('muebles', [MuebleController::class, 'store'])->name('muebles.store');
+use App\Http\Controllers\CortinaController;
+
+Route::get('aulas/{aula}/cortinas', [CortinaController::class, 'indexByAula'])->name('cortinas.byAula');
+Route::get('aulas/{aula}/cortinas/create', [CortinaController::class, 'createByAula'])->name('cortinas.createByAula');
+Route::post('cortinas', [CortinaController::class, 'store'])->name('cortinas.store');
+Route::get('cortinas/{cortina}/edit', [CortinaController::class, 'edit'])->name('cortinas.edit');
+Route::put('cortinas/{cortina}', [CortinaController::class, 'update'])->name('cortinas.update');
+Route::delete('cortinas/{cortina}', [CortinaController::class, 'destroy'])->name('cortinas.destroy');
 
 Route::resource('muebles', MuebleController::class);
 Route::get('/aires/{aire}/historial', [HistorialAireController::class, 'showByAire'])

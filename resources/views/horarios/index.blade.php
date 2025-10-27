@@ -104,6 +104,29 @@
         border: 1px solid #dcdcdc;
         box-shadow: none;
     }
+    .reservar-btn {
+    display: inline-block;
+    background: linear-gradient(135deg, #4CAF50, #388E3C);
+    color: #fff !important;
+    border: none;
+    border-radius: 8px;
+    padding: 6px 14px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-align: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 3px 5px rgba(0,0,0,0.1);
+}
+.reservar-btn:hover {
+    background: linear-gradient(135deg, #43A047, #2E7D32);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 10px rgba(0,0,0,0.15);
+}
+.reservar-btn:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
 </style>
 
 <div class="container">
